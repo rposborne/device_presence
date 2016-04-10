@@ -2,7 +2,7 @@ defmodule DevicePresence.DeviceControllerTest do
   use DevicePresence.ConnCase
 
   alias DevicePresence.Device
-  @valid_attrs %{last_seen_at: "2010-04-17 14:00:00", mac_address: "some content", name: "some content", user_id: 42}
+  @valid_attrs %{last_seen_at: "2010-04-17 14:00:00", mac_address: "01:23:45:67:89:ab", name: "iPhone", user_id: 42}
   @invalid_attrs %{}
 
   setup %{conn: conn} do

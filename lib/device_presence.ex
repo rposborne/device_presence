@@ -13,6 +13,7 @@ defmodule DevicePresence do
       supervisor(DevicePresence.Repo, []),
       # Here you could define other workers and supervisors as children
       # worker(DevicePresence.Worker, [arg1, arg2, arg3]),
+      worker(DevicePresence.ScanSession, [])
     ]
 
     # See http://elixir-lang.org/docs/stable/elixir/Supervisor.html
