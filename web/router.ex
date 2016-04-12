@@ -17,10 +17,13 @@ defmodule DevicePresence.Router do
     pipe_through :browser # Use the default browser stack
 
     get "/", PageController, :index
+
   end
 
   # Other scopes may use custom stacks.
-  # scope "/api", DevicePresence do
-  #   pipe_through :api
-  # end
+  scope "/api", DevicePresence do
+    pipe_through :api
+    
+    resources "/devices", DeviceController, except: [:new, :edit]
+  end
 end

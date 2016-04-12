@@ -10,8 +10,8 @@ defmodule DevicePresence.Device do
     timestamps
   end
 
-  @required_fields ~w(name mac_address last_seen_at user_id)
-  @optional_fields ~w()
+  @required_fields ~w(name mac_address user_id)
+  @optional_fields ~w(last_seen_at)
 
   @doc """
   Creates a changeset based on the `model` and `params`.
