@@ -23,7 +23,8 @@ defmodule DevicePresence.Router do
   # Other scopes may use custom stacks.
   scope "/api", DevicePresence do
     pipe_through :api
-    
+
     resources "/devices", DeviceController, except: [:new, :edit]
+    resources "/nodes", NodeController, only: [:index]
   end
 end

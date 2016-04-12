@@ -6,6 +6,11 @@ defmodule DevicePresence.ScanSessionTest do
     assert DevicePresence.ScanSession.nodes(file)
   end
 
+  test "will print a list of nodes" do
+    file = File.read!(Path.expand("test/fixtures/session.txt"))
+    assert DevicePresence.ScanSession.persist_session(file)
+  end
+
   test "will produce a list of events" do
     file = File.read!(Path.expand("test/fixtures/session.txt"))
     [head | tail] = DevicePresence.ScanSession.events(file)
@@ -17,7 +22,7 @@ defmodule DevicePresence.ScanSessionTest do
 
   test "will extract timestamps out " do
     file = File.read!(Path.expand("test/fixtures/session.txt"))
-    [head | tail] = DevicePresence.ScanSession.events(file) |> Enum.filter(fn(event) -> Keyword.has_key?(event, :time) end)
+    [head | tail] = DevicePresence.ScanSession.events(file) |> Enum.filter(fn(event) -> Map.has_key?(event, :time) end)
 
     assert head[:id] == "61"
     assert "2016" == head[:time] |> Timex.format!("{YYYY}")

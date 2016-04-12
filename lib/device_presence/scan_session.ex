@@ -9,23 +9,31 @@ defmodule DevicePresence.ScanSession do
   end
 
   def init(state) do
-    Process.send_after(self(), :work, 2 * 1000) # In 2 seconds
+    Process.send_after(self(), :work, 1 * 60 * 1000) # In 2 seconds
     {:ok, state}
   end
 
   def handle_info(:work, state) do
     # Do the work you desire here
     IO.puts "Running Scan Session worker"
-    # parse_fing_session
+    fetch_session
     # Start the timer again
-    Process.send_after(self(), :work, 2 * 1000) # In 2 seconds
+    Process.send_after(self(), :work, 1 * 60 * 1000) # In 1 minute
 
     {:noreply, state}
   end
 
-  def parse_fing_session(file) do
-    {:ok, body} = file
-    Enum.each(events(body), fn(x) -> IO.puts x end)
+  def fetch_session do
+    :inets.start
+    case :httpc.request(:get, {'http://10.1.10.49/session.txt', []}, [], []) do
+      {:ok, response} ->
+        {_status_line, _headers, body} = response
+        List.to_string(body) |> events
+    end
+  end
+
+  def persist_session(body) do
+    Enum.each(events(body), fn(x) -> IO.puts x[:id] end)
   end
 
   def nodes(body) do
@@ -36,8 +44,8 @@ defmodule DevicePresence.ScanSession do
     scan_session(body, "log.event")
   end
 
-  def scan_session(file, filter) do
-    relevant_lines = String.split(file) |> Enum.filter(fn(x) -> String.contains?(x, filter) end)
+  def scan_session(body, filter) do
+    relevant_lines = String.split(body, "\n") |> Enum.filter(fn(x) -> String.contains?(x, filter) end)
 
     lines = Enum.map(relevant_lines, fn(l) -> parse_line(l) end)
     # TODO: This is painful... Store in Map, and then strp groupings? must be
@@ -45,7 +53,7 @@ defmodule DevicePresence.ScanSession do
     Enum.reduce( lines, %{}, fn(l, acc) ->
       list = Map.get(acc, l[:id]) || []
       Map.put(acc, l[:id], Keyword.merge(list, l))
-    end) |> Map.values
+    end) |> Map.values |> Enum.map(fn el -> Enum.into(el, %{}) end)
   end
 
   def parse_line(line) do
