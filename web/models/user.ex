@@ -1,16 +1,15 @@
-defmodule DevicePresence.Device do
+defmodule DevicePresence.User do
   use DevicePresence.Web, :model
 
-  schema "devices" do
+  schema "users" do
     field :name, :string
-    field :mac_address, :string
-    field :last_seen_at, Ecto.DateTime
-    belongs_to :user, User 
+    field :email, :string
+    has_many :devices, DevicePresence.Device
     timestamps
   end
 
-  @required_fields ~w(name mac_address user_id)
-  @optional_fields ~w(last_seen_at)
+  @required_fields ~w(name email)
+  @optional_fields ~w()
 
   @doc """
   Creates a changeset based on the `model` and `params`.

@@ -1,4 +1,4 @@
-defmodule DevicePresence.ScanSession do
+defmodule DevicePresence.Scansession do
   use GenServer
   use Timex
   require DevicePresence.Device
@@ -36,7 +36,7 @@ defmodule DevicePresence.ScanSession do
   end
 
   def persist_session(body) do
-    Enum.each(nodes(body), fn(x) -> Repo.insert! %DevicePresence.Device{mac_address: x[:node]} end)
+    Enum.each(nodes(body), fn(x) -> %Device{mac_address: x[:node]} end)
   end
 
   def nodes(body) do
