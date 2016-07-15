@@ -1,7 +1,7 @@
 defmodule DevicePresence.ScanSession do
   use GenServer
   use Timex
-  require DevicePresence.Device
+  require DevicePresence.PersistSession
   require Logger
   require IEx
 
@@ -29,14 +29,16 @@ defmodule DevicePresence.ScanSession do
     case :httpc.request(:get, {'http://10.1.10.49/session.txt', []}, [], []) do
       {:ok, response} ->
         {_status_line, _headers, body} = response
-        List.to_string(body) |> events
+        List.to_string(body) |> persist_session
+
       {:error, response} ->
         %{}
     end
   end
 
   def persist_session(body) do
-    Enum.each(nodes(body), fn(x) -> Repo.insert! %DevicePresence.Device{mac_address: x[:node]} end)
+    body |> events |> DevicePresence.PersistSession.persist_events
+    body |> nodes |> DevicePresence.PersistSession.persist_nodes
   end
 
   def nodes(body) do
