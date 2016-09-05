@@ -23,7 +23,7 @@ defmodule DevicePresence.PersistSession do
       node_id: node[:id],
       prev_node_id: prev_node[:id],
       occured_at: event[:time]
-    } |> Repo.insert!
+    } |> DevicePresence.Repo.insert!
   end
 
   def persist_node(node) do

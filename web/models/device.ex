@@ -23,7 +23,7 @@ defmodule DevicePresence.Device do
   def changeset(model, params \\ :empty) do
     model
     |> cast(params, @required_fields, @optional_fields)
-    |> validate_required([:mac_address,:fing_node], {})
+    |> validate_required([:mac_address,:fing_node])
     |> unique_constraint(:fing_node)
     |> unique_constraint(:mac_address)
   end

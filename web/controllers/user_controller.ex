@@ -1,7 +1,6 @@
 defmodule DevicePresence.UserController do
   use DevicePresence.Web, :controller
 
-  alias DevicePresence.Device
   alias DevicePresence.User
 
   plug :scrub_params, "user" when action in [:create, :update]

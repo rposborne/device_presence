@@ -67,8 +67,8 @@ defmodule DevicePresence.ScanSession do
     [key | value] = String.split(line, "=")
     value = List.first(value)
     case String.split(key, ".") do
-      [klass, _type, id, field] -> [{:id, id}, parse_field(field, value)]
-      [klass, id, field] -> [{:id, id}, parse_field(field, value)]
+      [_klass, _type, id, field] -> [{:id, id}, parse_field(field, value)]
+      [_klass, id, field] -> [{:id, id}, parse_field(field, value)]
     end
   end
 
