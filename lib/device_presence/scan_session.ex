@@ -10,7 +10,7 @@ defmodule DevicePresence.ScanSession do
   end
 
   def init(state) do
-    Process.send_after(self(), :work, 1 * 60 * 1000) # In 2 seconds
+    Process.send_after(self(), :work, 1 * 60 * 50) # In 2 seconds
     {:ok, state}
   end
 
@@ -19,7 +19,7 @@ defmodule DevicePresence.ScanSession do
     IO.puts "Running Scan Session worker"
     fetch_session
     # Start the timer again
-    Process.send_after(self(), :work, 1 * 60 * 1000) # In 1 minute
+    Process.send_after(self(), :work, 1 * 60 * 50) # In 1 minute
 
     {:noreply, state}
   end
@@ -29,6 +29,7 @@ defmodule DevicePresence.ScanSession do
     case :httpc.request(:get, {'http://10.1.10.49/session.txt', []}, [], []) do
       {:ok, response} ->
         {_status_line, _headers, body} = response
+
         List.to_string(body) |> persist_session
 
       {:error, response} ->
@@ -37,8 +38,9 @@ defmodule DevicePresence.ScanSession do
   end
 
   def persist_session(body) do
-    body |> events |> DevicePresence.PersistSession.persist_events
     body |> nodes |> DevicePresence.PersistSession.persist_nodes
+
+    body |> events |> DevicePresence.PersistSession.persist_events
   end
 
   def nodes(body) do

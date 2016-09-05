@@ -3,7 +3,7 @@ defmodule DevicePresence.DeviceTest do
 
   alias DevicePresence.Device
 
-  @valid_attrs %{last_seen_at: "2010-04-17 14:00:00", mac_address: "some content", name: "some content", user_id: 42}
+  @valid_attrs %{last_seen_at: "2010-04-17 14:00:00", mac_address: "some content", name: "some content", user_id: 42, fing_node: "0034"}
   @invalid_attrs %{}
 
   test "changeset with valid attributes" do
