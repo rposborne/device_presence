@@ -1,0 +1,30 @@
+<h2>Listing collectors</h2>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Location</th>
+      <th>Subnet</th>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+<%= for collector <- @collectors do %>
+    <tr>
+      <td><%= collector.name %></td>
+      <td><%= collector.location %></td>
+      <td><%= collector.subnet %></td>
+
+      <td class="text-right">
+        <%= link "Show", to: collector_path(@conn, :show, collector), class: "btn btn-default btn-xs" %>
+        <%= link "Edit", to: collector_path(@conn, :edit, collector), class: "btn btn-default btn-xs" %>
+        <%= link "Delete", to: collector_path(@conn, :delete, collector), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-danger btn-xs" %>
+      </td>
+    </tr>
+<% end %>
+  </tbody>
+</table>
+
+<%= link "New collector", to: collector_path(@conn, :new) %>

@@ -1,0 +1,23 @@
+<h2>Show collector</h2>
+
+<ul>
+
+  <li>
+    <strong>Name:</strong>
+    <%= @collector.name %>
+  </li>
+
+  <li>
+    <strong>Location:</strong>
+    <%= @collector.location %>
+  </li>
+
+  <li>
+    <strong>Subnet:</strong>
+    <%= @collector.subnet %>
+  </li>
+
+</ul>
+
+<%= link "Edit", to: collector_path(@conn, :edit, @collector) %>
+<%= link "Back", to: collector_path(@conn, :index) %>

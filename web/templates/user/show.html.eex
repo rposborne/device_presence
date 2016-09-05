@@ -12,7 +12,11 @@
     <%= @user.email %>
   </li>
   <li>
-    <%= @user.devices %>
+  <%= for device <- @devices do %>
+    <tr>
+      <td><%= device.mac_address %></td>
+    </tr>
+  <% end %>
   </li>
 </ul>
 
