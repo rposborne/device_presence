@@ -1,9 +1,9 @@
 defmodule DevicePresence.ScanSessionTest do
-  use ExUnit.Case, async: true
+  use DevicePresence.ModelCase
 
   test "will produce a list of nodes" do
     file = File.read!(Path.expand("test/fixtures/session.txt"))
-    assert DevicePresence.ScanSession.nodes(file)
+    assert DevicePresence.ScanSession.devices(file)
   end
 
   test "will print a list of nodes" do

@@ -26,38 +26,38 @@ defmodule DevicePresence.ScanSession do
 
   def fetch_session do
     :inets.start
-    case :httpc.request(:get, {'http://10.1.10.49/session.txt', []}, [], []) do
+    case :httpc.request(:get, {'http://10.0.1.52/session.txt', []}, [], []) do
       {:ok, response} ->
         {_status_line, _headers, body} = response
 
-        List.to_string(body) |> persist_session
+        body |> List.to_string |> persist_session
 
-      {:error, response} ->
+      {:error, _response} ->
         %{}
     end
   end
 
   def persist_session(body) do
-    body |> nodes |> DevicePresence.PersistSession.persist_nodes
+    body |> devices |> DevicePresence.PersistSession.persist_devices
 
     body |> events |> DevicePresence.PersistSession.persist_events
   end
 
-  def nodes(body) do
+  def devices(body) do
     scan_session(body, "node.")
   end
 
   def events(body) do
-    scan_session(body, "log.event")
+    scan_session(body, "log.event.")
   end
 
   def scan_session(body, filter) do
-    relevant_lines = String.split(body, "\n") |> Enum.filter(fn(x) -> String.contains?(x, filter) end)
+    relevant_lines = body |> String.split("\n") |> Enum.filter(fn(x) -> String.starts_with?(x, filter) end)
 
     lines = Enum.map(relevant_lines, fn(l) -> parse_line(l) end)
     # TODO: This is painful... Store in Map, and then strp groupings? must be
     # better way
-    Enum.reduce( lines, %{}, fn(l, acc) ->
+    lines |> Enum.reduce(%{}, fn(l, acc) ->
       list = Map.get(acc, l[:id]) || []
       Map.put(acc, l[:id], Keyword.merge(list, l))
     end) |> Map.values |> Enum.map(fn el -> Enum.into(el, %{}) end)

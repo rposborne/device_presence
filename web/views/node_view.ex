@@ -1,19 +1,19 @@
 defmodule DevicePresence.NodeView do
   use DevicePresence.Web, :view
 
-  def render("index.json", %{nodes: nodes}) do
-    %{data: render_many(nodes, DevicePresence.NodeView, "node.json")}
+  def render("index.json", %{nodes: devicess}) do
+    %{data: render_many(devicess, DevicePresence.NodeView, "node.json")}
   end
 
-  def render("show.json", %{node: node}) do
-    %{data: render_one(node, DevicePresence.NodeView, "node.json")}
+  def render("show.json", %{node: device}) do
+    %{data: render_one(device, DevicePresence.NodeView, "node.json")}
   end
 
-  def render("node.json", %{node: node}) do
-    %{id: node.id,
-      node: node.node,
-      previous_seen_at: node.prevtime,
-      seen_at: node.time,
-      status: node.type}
+  def render("node.json", %{node: device}) do
+    %{id: device.id,
+      node: device.node,
+      previous_seen_at: device.prevtime,
+      seen_at: device.time,
+      status: device.type}
   end
 end

@@ -2,8 +2,7 @@ defmodule DevicePresence.UserController do
   use DevicePresence.Web, :controller
 
   alias DevicePresence.User
-
-  plug :scrub_params, "user" when action in [:create, :update]
+  alias DevicePresence.Device
 
   def index(conn, _params) do
     users = Repo.all(User)
@@ -29,8 +28,9 @@ defmodule DevicePresence.UserController do
   end
 
   def show(conn, %{"id" => id}) do
-    user = User |> Repo.get!(id) |> Repo.preload([:devices])
-    render(conn, "show.html", user: user)
+    user = Repo.get!(User, id)
+    devices = Repo.all(Device)
+    render(conn, "show.html", user: user, devices: devices)
   end
 
   def edit(conn, %{"id" => id}) do
@@ -62,6 +62,13 @@ defmodule DevicePresence.UserController do
 
     conn
     |> put_flash(:info, "User deleted successfully.")
+    |> redirect(to: user_path(conn, :index))
+  end
+
+  def scan(conn, _params) do
+    DevicePresence.ScanSession.fetch_session
+    conn
+    |> put_flash(:info, "Scan Started")
     |> redirect(to: user_path(conn, :index))
   end
 end

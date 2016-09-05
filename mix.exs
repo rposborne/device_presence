@@ -37,6 +37,7 @@ defmodule DevicePresence.Mixfile do
      {:timex, "~> 2.1.4" },
      {:phoenix_live_reload, "~> 1.0", only: :dev},
      {:gettext, "~> 0.9"},
+     {:credo, "~> 0.4", only: [:dev, :test]},
      {:cowboy, "~> 1.0"}]
   end
 
@@ -47,7 +48,10 @@ defmodule DevicePresence.Mixfile do
   #
   # See the documentation for `Mix` for more info on aliases.
   defp aliases do
-    ["ecto.setup": ["ecto.create", "ecto.migrate", "run priv/repo/seeds.exs"],
-     "ecto.reset": ["ecto.drop", "ecto.setup"]]
+    [
+    "ecto.setup": ["ecto.create", "ecto.migrate", "run priv/repo/seeds.exs"],
+     "ecto.reset": ["ecto.drop", "ecto.setup"],
+     "test": ["ecto.create --quiet", "ecto.migrate", "test"]
+   ]
   end
 end

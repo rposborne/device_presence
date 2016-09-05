@@ -18,6 +18,7 @@ defmodule DevicePresence.Router do
 
     get "/", PageController, :index
     resources "/users", UserController 
+    put "/devices/scan", UserController, :scan
   end
 
   # Other scopes may use custom stacks.
