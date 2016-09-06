@@ -1,32 +1,16 @@
 defmodule DevicePresence.ScanSession do
-  use GenServer
-  use Timex
   require DevicePresence.PersistSession
-  require Logger
   require IEx
+  use Timex
 
-  def start_link do
-    GenServer.start_link(__MODULE__, %{})
-  end
-
-  def init(state) do
-    Process.send_after(self(), :work, 1 * 60 * 50) # In 2 seconds
-    {:ok, state}
-  end
-
-  def handle_info(:work, state) do
-    # Do the work you desire here
-    IO.puts "Running Scan Session worker"
-    fetch_session
-    # Start the timer again
-    Process.send_after(self(), :work, 1 * 60 * 50) # In 1 minute
-
-    {:noreply, state}
-  end
 
   def fetch_session do
+    fetch_session('10.0.1.52')
+  end
+
+  def fetch_session(ip) do
     :inets.start
-    case :httpc.request(:get, {'http://10.0.1.52/session.txt', []}, [], []) do
+    case :httpc.request(:get, {"http://#{ip}/session.txt", []}, [], []) do
       {:ok, response} ->
         {_status_line, _headers, body} = response
 
@@ -35,6 +19,7 @@ defmodule DevicePresence.ScanSession do
       {:error, _response} ->
         %{}
     end
+
   end
 
   def persist_session(body) do
