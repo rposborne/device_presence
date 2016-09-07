@@ -3,14 +3,13 @@ defmodule DevicePresence.ScanSession do
   require IEx
   use Timex
 
-
   def fetch_session do
     fetch_session('10.0.1.52')
   end
 
-  def fetch_session(ip) do
+  def fetch_session(collector) do
     :inets.start
-    case :httpc.request(:get, {"http://#{ip}/session.txt", []}, [], []) do
+    case :httpc.request(:get, {"http://#{collector.subnet}/session.txt", []}, [], []) do
       {:ok, response} ->
         {_status_line, _headers, body} = response
 

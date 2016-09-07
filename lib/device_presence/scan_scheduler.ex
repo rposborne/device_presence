@@ -14,8 +14,8 @@ defmodule DevicePresence.ScanScheduler do
 
   def handle_info(:work, state) do
     # Do the work you desire here
-    IO.puts "Running Scan Session worker"
-    DevicePresence.ScanSession.fetch_session
+    # IO.puts "Running Scan Session worker"
+    # DevicePresence.ScanSession.fetch_session
     # Start the timer again
     Process.send_after(self(), :work, 1 * 60 * 50) # In 1 minute
 
