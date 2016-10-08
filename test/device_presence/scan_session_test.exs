@@ -6,10 +6,6 @@ defmodule DevicePresence.FetchFingSessionTest do
     assert DevicePresence.FetchFingSession.devices(file)
   end
 
-  test "will print a list of nodes" do
-    file = File.read!(Path.expand("test/fixtures/session.txt"))
-    assert DevicePresence.FetchFingSession.persist_session(file)
-  end
 
   test "will produce a list of events" do
     file = File.read!(Path.expand("test/fixtures/session.txt"))

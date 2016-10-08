@@ -43,17 +43,20 @@ defmodule DevicePresence.PersistSession do
       node_id: device.id,
       prev_node_id: prev_device[:id],
       occured_at: occured_at
-    } |> DevicePresence.Repo.insert!
+    }
+    |> DevicePresence.Event.changeset
+    |> DevicePresence.Repo.insert!
   end
 
   def persist_device(device, collector) do
-    # IO.inspect device
     %DevicePresence.Device{
-      mac_address: device[:hwAddress],
-      fing_node: device[:id],
+      mac_address: device.hwAddress,
+      fing_node: device.id,
       collector_id: collector.id,
-      last_seen_ip: device[:inetAddress],
+      last_seen_ip: device.inetAddress,
       last_seen_at: Ecto.DateTime.from_erl(:calendar.universal_time())
-     }  |> DevicePresence.Repo.insert!
+     }
+     |> DevicePresence.Device.changeset
+     |> DevicePresence.Repo.insert
   end
 end

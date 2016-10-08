@@ -13,5 +13,7 @@ defmodule DevicePresence.Repo.Migrations.CreateDevice do
       timestamps
     end
 
+    create unique_index(:devices, [:fing_node, :mac_address], name: :find_node_mac_address_uniq_index)
+
   end
 end
