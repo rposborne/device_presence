@@ -3,7 +3,7 @@ defmodule DevicePresence.CollectorTest do
 
   alias DevicePresence.Collector
 
-  @valid_attrs %{location: "some content", name: "some content", subnet: "some content"}
+  @valid_attrs %{location: "some content", name: "some content", ip: "192.168.1.3"}
   @invalid_attrs %{}
 
   test "changeset with valid attributes" do

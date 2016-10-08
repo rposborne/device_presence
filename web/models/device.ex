@@ -4,6 +4,7 @@ defmodule DevicePresence.Device do
   schema "devices" do
     field :name, :string
     field :mac_address, :string
+    field :collector_id, :integer
     field :fing_node, :string
     field :last_seen_ip, :string
     field :last_seen_at, Ecto.DateTime
@@ -20,7 +21,7 @@ defmodule DevicePresence.Device do
   If no params are provided, an invalid changeset is returned
   with no validation performed.
   """
-  def changeset(model, params \\ :empty) do
+  def changeset(model, params \\ %{}) do
     model
     |> cast(params, @required_fields, @optional_fields)
     |> validate_required([:mac_address,:fing_node])

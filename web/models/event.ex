@@ -4,6 +4,7 @@ defmodule DevicePresence.Event do
   schema "events" do
     field :node_id, :integer
     field :prev_node_id, :integer
+    field :collector_id, :integer
     field :occured_at, Ecto.DateTime
     field :event_type, :string
 
@@ -19,7 +20,7 @@ defmodule DevicePresence.Event do
   If no params are provided, an invalid changeset is returned
   with no validation performed.
   """
-  def changeset(model, params \\ :empty) do
+  def changeset(model, params \\ %{}) do
     model
     |> cast(params, @required_fields, @optional_fields)
   end

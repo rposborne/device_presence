@@ -66,7 +66,7 @@ defmodule DevicePresence.UserController do
   end
 
   def scan(conn, _params) do
-    DevicePresence.ScanSession.fetch_session
+    DevicePresence.FetchFingSession.fetch_session
     conn
     |> put_flash(:info, "Scan Started")
     |> redirect(to: user_path(conn, :index))

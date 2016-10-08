@@ -3,14 +3,14 @@ defmodule DevicePresence.PersistSession do
   require DevicePresence.Device
   import Ecto.Query, only: [from: 2]
 
-  def persist_devices(nodes) do
-    IO.puts "________________Nodes_________________"
-    Enum.each(nodes, fn(e) -> persist_device(e) end)
+  def persist_devices(nodes, collector) do
+    # IO.puts "________________Nodes_________________"
+    Enum.each(nodes, fn(e) -> persist_device(e, collector) end)
   end
 
-  def persist_events(events) do
-    IO.puts "________________Events_________________"
-    Enum.each(events, fn(e) -> persist_event(e) end)
+  def persist_events(events, collector) do
+    # IO.puts "________________Events_________________"
+    Enum.each(events, fn(e) -> persist_event(e, collector) end)
   end
 
   def get_device_for_event(event) do
@@ -31,7 +31,7 @@ defmodule DevicePresence.PersistSession do
     end
   end
 
-  def persist_event(event) do
+  def persist_event(event, collector) do
     device = event |> get_device_for_event
     prev_device = event |> get_prev_device_for_event
     {:ok, occured_at} =  Ecto.DateTime.cast(event[:time])
@@ -39,17 +39,19 @@ defmodule DevicePresence.PersistSession do
     #
     %DevicePresence.Event{
       event_type: event[:type],
+      collector_id: collector.id,
       node_id: device.id,
       prev_node_id: prev_device[:id],
       occured_at: occured_at
     } |> DevicePresence.Repo.insert!
   end
 
-  def persist_device(device) do
-    IO.inspect device
+  def persist_device(device, collector) do
+    # IO.inspect device
     %DevicePresence.Device{
       mac_address: device[:hwAddress],
       fing_node: device[:id],
+      collector_id: collector.id,
       last_seen_ip: device[:inetAddress],
       last_seen_at: Ecto.DateTime.from_erl(:calendar.universal_time())
      }  |> DevicePresence.Repo.insert!

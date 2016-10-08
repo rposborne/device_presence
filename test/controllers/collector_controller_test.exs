@@ -2,7 +2,7 @@ defmodule DevicePresence.CollectorControllerTest do
   use DevicePresence.ConnCase
 
   alias DevicePresence.Collector
-  @valid_attrs %{location: "some content", name: "some content", subnet: "some content"}
+  @valid_attrs %{location: "some content", name: "some content", ip: "192.168.1.3"}
   @invalid_attrs %{}
 
   test "lists all entries on index", %{conn: conn} do

@@ -1,19 +1,19 @@
-defmodule DevicePresence.ScanSession do
+defmodule DevicePresence.FetchFingSession do
   require DevicePresence.PersistSession
   require IEx
   use Timex
 
   def fetch_session do
-    fetch_session('10.0.1.52')
+    fetch_session(DevicePresence.Collector.first)
   end
 
   def fetch_session(collector) do
     :inets.start
-    case :httpc.request(:get, {"http://#{collector.subnet}/session.txt", []}, [], []) do
+    case :httpc.request(:get, {"http://#{collector.ip}/session.txt", []}, [], []) do
       {:ok, response} ->
         {_status_line, _headers, body} = response
 
-        body |> List.to_string |> persist_session
+        body |> List.to_string |> persist_session(collector)
 
       {:error, _response} ->
         %{}
@@ -21,10 +21,10 @@ defmodule DevicePresence.ScanSession do
 
   end
 
-  def persist_session(body) do
-    body |> devices |> DevicePresence.PersistSession.persist_devices
+  def persist_session(body, collector) do
+    body |> devices |> DevicePresence.PersistSession.persist_devices(collector)
 
-    body |> events |> DevicePresence.PersistSession.persist_events
+    body |> events |> DevicePresence.PersistSession.persist_events(collector)
   end
 
   def devices(body) do

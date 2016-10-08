@@ -17,6 +17,12 @@
     <%= error_tag f, :location %>
   </div>
 
+    <div class="form-group">
+    <%= label f, :ip, class: "control-label" %>
+    <%= text_input f, :ip, class: "form-control" %>
+    <%= error_tag f, :ip %>
+  </div>
+
   <div class="form-group">
     <%= label f, :subnet, class: "control-label" %>
     <%= text_input f, :subnet, class: "form-control" %>

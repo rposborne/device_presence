@@ -13,11 +13,17 @@
   </li>
 
   <li>
+    <strong>ip:</strong>
+    <%= @collector.ip %>
+  </li>
+
+  <li>
     <strong>Subnet:</strong>
     <%= @collector.subnet %>
   </li>
 
 </ul>
 
-<%= link "Edit", to: collector_path(@conn, :edit, @collector) %>
-<%= link "Back", to: collector_path(@conn, :index) %>
+<%= link "Edit", to: collector_path(@conn, :edit, @collector), class: "btn btn-default" %>
+
+<%= link "Back", to: collector_path(@conn, :index), class: "btn btn-default" %>

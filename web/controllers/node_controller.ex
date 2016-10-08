@@ -7,6 +7,6 @@ defmodule DevicePresence.NodeController do
   end
 
   defp fetch_nodes do
-    DevicePresence.ScanSession.fetch_session
+    DevicePresence.FetchFingSession.fetch_session
   end
 end

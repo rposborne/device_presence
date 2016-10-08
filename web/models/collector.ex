@@ -4,6 +4,7 @@ defmodule DevicePresence.Collector do
   schema "collectors" do
     field :name, :string
     field :location, :string
+    field :ip, :string
     field :subnet, :string
 
     timestamps()
@@ -14,7 +15,7 @@ defmodule DevicePresence.Collector do
   """
   def changeset(struct, params \\ %{}) do
     struct
-    |> cast(params, [:name, :location, :subnet])
-    |> validate_required([:name, :location, :subnet])
+    |> cast(params, [:name, :location, :subnet, :ip])
+    |> validate_required([:name, :ip])
   end
 end
