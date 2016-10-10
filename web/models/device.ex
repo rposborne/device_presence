@@ -5,15 +5,15 @@ defmodule DevicePresence.Device do
     field :name, :string
     field :mac_address, :string
     field :collector_id, :integer
-    field :fing_node, :string
     field :last_seen_ip, :string
+    field :status, :string
     field :last_seen_at, Ecto.DateTime
     belongs_to :user, User
     timestamps
   end
 
-  @required_fields [:mac_address, :fing_node]
-  @optional_fields [:name, :last_seen_at, :last_seen_ip, :user_id]
+  @required_fields [:mac_address, :collector_id]
+  @optional_fields [:name, :last_seen_at, :last_seen_ip, :user_id, :status]
 
   @doc """
   Creates a changeset based on the `model` and `params`.
@@ -25,6 +25,7 @@ defmodule DevicePresence.Device do
     model
     |> cast(params, @required_fields, @optional_fields)
     |> validate_required(@required_fields)
-    |> unique_constraint(:device, name: :find_node_mac_address_uniq_index)
+    |> unique_constraint(:mac_address)
+    |> unique_constraint(:device, name: :mac_address_uniq_index)
   end
 end

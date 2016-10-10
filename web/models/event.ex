@@ -2,8 +2,7 @@ defmodule DevicePresence.Event do
   use DevicePresence.Web, :model
 
   schema "events" do
-    field :node_id, :integer
-    field :prev_node_id, :integer
+    field :device_id, :integer
     field :collector_id, :integer
     field :occured_at, Ecto.DateTime
     field :event_type, :string
@@ -11,8 +10,7 @@ defmodule DevicePresence.Event do
     timestamps
   end
 
-  @required_fields ~w(node_id occured_at)
-  @optional_fields ~w()
+  @required_fields [:device_id, :collector_id, :event_type, :occured_at]
 
   @doc """
   Creates a changeset based on the `model` and `params`.
@@ -22,6 +20,6 @@ defmodule DevicePresence.Event do
   """
   def changeset(model, params \\ %{}) do
     model
-    |> cast(params, @required_fields, @optional_fields)
+    |> cast(params, @required_fields)
   end
 end

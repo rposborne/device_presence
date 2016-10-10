@@ -64,11 +64,4 @@ defmodule DevicePresence.UserController do
     |> put_flash(:info, "User deleted successfully.")
     |> redirect(to: user_path(conn, :index))
   end
-
-  def scan(conn, _params) do
-    DevicePresence.FetchFingSession.fetch_session
-    conn
-    |> put_flash(:info, "Scan Started")
-    |> redirect(to: user_path(conn, :index))
-  end
 end

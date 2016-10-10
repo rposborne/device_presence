@@ -3,6 +3,7 @@ defmodule DevicePresence.CollectorController do
 
   alias DevicePresence.Collector
 
+
   def index(conn, _params) do
     collectors = Repo.all(Collector)
     render(conn, "index.html", collectors: collectors)
@@ -28,7 +29,8 @@ defmodule DevicePresence.CollectorController do
 
   def show(conn, %{"id" => id}) do
     collector = Repo.get!(Collector, id)
-    render(conn, "show.html", collector: collector)
+    devices = Repo.all assoc(collector, :devices)
+    render(conn, "show.html", collector: collector, devices: devices)
   end
 
   def edit(conn, %{"id" => id}) do

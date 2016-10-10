@@ -3,17 +3,18 @@ defmodule DevicePresence.Repo.Migrations.CreateDevice do
 
   def change do
     create table(:devices) do
+      add :user_id, :integer
+      add :collector_id, :integer
       add :name, :string
-      add :fing_node, :string
+      add :status, :string
       add :mac_address, :string
       add :last_seen_at, :datetime
       add :last_seen_ip, :string
-      add :user_id, :integer
 
       timestamps
     end
 
-    create unique_index(:devices, [:fing_node, :mac_address], name: :find_node_mac_address_uniq_index)
+    create unique_index(:devices, [ :mac_address], name: :mac_address_uniq_index)
 
   end
 end

@@ -6,6 +6,7 @@ defmodule DevicePresence.Repo.Migrations.CreateCollector do
       add :name, :string
       add :location, :string
       add :subnet, :string
+      add :ip, :string
 
       timestamps()
     end

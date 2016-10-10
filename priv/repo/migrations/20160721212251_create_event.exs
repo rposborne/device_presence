@@ -3,11 +3,10 @@ defmodule DevicePresence.Repo.Migrations.CreateEvent do
 
   def change do
     create table(:events) do
-      add :node_id, :integer
-      add :prev_node_id, :integer
+      add :device_id, :integer
       add :event_type, :string
       add :occured_at, :datetime
-
+      add :collector_id, :integer
       timestamps
     end
 

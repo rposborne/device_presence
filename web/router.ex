@@ -19,7 +19,6 @@ defmodule DevicePresence.Router do
     get "/", PageController, :index
     resources "/users", UserController
     resources "/collectors", CollectorController
-    put "/devices/scan", UserController, :scan
   end
 
   # Other scopes may use custom stacks.
@@ -27,6 +26,6 @@ defmodule DevicePresence.Router do
     pipe_through :api
 
     resources "/devices", DeviceController, except: [:new, :edit]
-    resources "/nodes", NodeController, only: [:index]
+    post "/devices/scan", ScanController, :create
   end
 end

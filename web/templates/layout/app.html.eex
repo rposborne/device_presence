@@ -16,9 +16,7 @@
       <header class="header">
         <nav role="navigation">
           <ul class="nav nav-pills pull-right">
-            <li>
-              <%= link "Scan", to: user_path(@conn, :scan), method: :put, class: "btn btn-danger btn-xs" %>
-            </li>
+
           </ul>
         </nav>
       </header>
