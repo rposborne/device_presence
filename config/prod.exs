@@ -13,7 +13,7 @@ use Mix.Config
 # which you typically run after static files are built.
 config :device_presence, DevicePresence.Endpoint,
   http: [port: {:system, "PORT"}],
-  url: [host: "example.com", port: 80],
+  url: [host: "example.com", port: 8081],
   cache_static_manifest: "priv/static/manifest.json"
 
 # Do not print debug messages in production
@@ -62,4 +62,12 @@ config :logger, level: :info
 
 # Finally import the config/prod.secret.exs
 # which should be versioned separately.
-import_config "prod.secret.exs"
+# import_config "prod.secret.exs"
+
+config :device_presence, DevicePresence.Repo,
+  adapter: Ecto.postgres.Postgres,
+  username: "rposborne",
+  password: "postgres",
+  database: "device_presence_prod",
+  hostname: "localhost",
+  pool_size: 10
