@@ -3,32 +3,39 @@ defmodule DevicePresence.DeviceController do
 
   alias DevicePresence.Device
 
-  plug :scrub_params, "device" when action in [:create, :update]
-
   def index(conn, _params) do
     devices = Repo.all(Device)
-    render(conn, "index.json", devices: devices)
+    render(conn, "index.html", devices: devices)
+  end
+
+  def new(conn, _params) do
+    changeset = Device.changeset(%Device{})
+    render(conn, "new.html", changeset: changeset)
   end
 
   def create(conn, %{"device" => device_params}) do
     changeset = Device.changeset(%Device{}, device_params)
 
     case Repo.insert(changeset) do
-      {:ok, device} ->
+      {:ok, _device} ->
         conn
-        |> put_status(:created)
-        |> put_resp_header("location", device_path(conn, :show, device))
-        |> render("show.json", device: device)
+        |> put_flash(:info, "Device created successfully.")
+        |> redirect(to: device_path(conn, :index))
       {:error, changeset} ->
-        conn
-        |> put_status(:unprocessable_entity)
-        |> render(DevicePresence.ChangesetView, "error.json", changeset: changeset)
+        render(conn, "new.html", changeset: changeset)
     end
   end
 
   def show(conn, %{"id" => id}) do
     device = Repo.get!(Device, id)
-    render(conn, "show.json", device: device)
+    events = Repo.all assoc(device, :events)
+    render(conn, "show.html", device: device, events: events)
+  end
+
+  def edit(conn, %{"id" => id}) do
+    device = Repo.get!(Device, id)
+    changeset = Device.changeset(device)
+    render(conn, "edit.html", device: device, changeset: changeset)
   end
 
   def update(conn, %{"id" => id, "device" => device_params}) do
@@ -37,11 +44,11 @@ defmodule DevicePresence.DeviceController do
 
     case Repo.update(changeset) do
       {:ok, device} ->
-        render(conn, "show.json", device: device)
-      {:error, changeset} ->
         conn
-        |> put_status(:unprocessable_entity)
-        |> render(DevicePresence.ChangesetView, "error.json", changeset: changeset)
+        |> put_flash(:info, "Device updated successfully.")
+        |> redirect(to: device_path(conn, :show, device))
+      {:error, changeset} ->
+        render(conn, "edit.html", device: device, changeset: changeset)
     end
   end
 
@@ -52,6 +59,8 @@ defmodule DevicePresence.DeviceController do
     # it to always work (and if it does not, it will raise).
     Repo.delete!(device)
 
-    send_resp(conn, :no_content, "")
+    conn
+    |> put_flash(:info, "Device deleted successfully.")
+    |> redirect(to: device_path(conn, :index))
   end
 end

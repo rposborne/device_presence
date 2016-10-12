@@ -2,6 +2,7 @@ defmodule DevicePresence.Collector do
   use DevicePresence.Web, :model
 
   alias DevicePresence.Device
+
   schema "collectors" do
     field :name, :string
     field :location, :string

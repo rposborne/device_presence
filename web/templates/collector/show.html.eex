@@ -23,25 +23,25 @@
   </li>
 </ul>
 
-  <h3>Devices at this location</h3>
-  <table class="table">
-    <thead><tr>
-      <th>ID</th>
-      <th>Name</th>
-      <th>MAC</th>
-      <th>Ip</th>
-      <th>Seen At</th>
-    </tr></thead>
-    <%= for device <- @devices do %>
-      <tr>
-        <td><%= device.id %></td>
-        <td><%= device.name %></td>
-        <td><%= device.mac_address %></td>
-        <td><%= device.last_seen_ip %></td>
-        <td><%= device.last_seen_at %></td>
-      </tr>
-    <% end %>
-  </table>
+<h3>Devices at this location</h3>
+<table class="table">
+  <thead><tr>
+    <th>ID</th>
+    <th>Name</th>
+    <th>MAC</th>
+    <th>Ip</th>
+    <th>Seen At</th>
+  </tr></thead>
+  <%= for device <- @devices do %>
+    <tr>
+      <td><%= link device.id, to: device_path(@conn, :show, device) %></td>
+      <td><%= device.name %></td>
+      <td><%= device.mac_address %></td>
+      <td><%= device.last_seen_ip %></td>
+      <td><%= device.last_seen_at %></td>
+    </tr>
+  <% end %>
+</table>
 
 <%= link "Edit", to: collector_path(@conn, :edit, @collector), class: "btn btn-default" %>
 

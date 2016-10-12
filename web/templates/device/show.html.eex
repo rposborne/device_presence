@@ -1,0 +1,42 @@
+<h2>Show device</h2>
+
+<ul>
+
+  <li>
+    <strong>Name:</strong>
+    <%= @device.name %>
+  </li>
+
+  <li>
+    <strong>Mac address:</strong>
+    <%= @device.mac_address %>
+  </li>
+
+  <li>
+    <strong>Last seen at:</strong>
+    <%= @device.last_seen_at %>
+  </li>
+
+  <li>
+    <strong>Status:</strong>
+    <%= @device.status %>
+  </li>
+
+</ul>
+
+<h3>Events</h3>
+<table class="table">
+  <thead><tr>
+    <th>Status</th>
+    <th>Occurred</th>
+  </tr></thead>
+  <%= for event <- @events do %>
+    <tr>
+      <td><%= event.event_type %></td>
+      <td><%= event.inserted_at %></td>
+    </tr>
+  <% end %>
+</table>
+
+<%= link "Edit", to: device_path(@conn, :edit, @device) %>
+<%= link "Back", to: device_path(@conn, :index) %>

@@ -18,6 +18,7 @@ defmodule DevicePresence.Router do
 
     get "/", PageController, :index
     resources "/users", UserController
+    resources "/devices", DeviceController
     resources "/collectors", CollectorController
   end
 
@@ -25,7 +26,6 @@ defmodule DevicePresence.Router do
   scope "/api", DevicePresence do
     pipe_through :api
 
-    resources "/devices", DeviceController, except: [:new, :edit]
     post "/devices/scan", ScanController, :create
   end
 end

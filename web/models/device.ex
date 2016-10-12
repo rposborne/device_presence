@@ -1,6 +1,8 @@
 defmodule DevicePresence.Device do
   use DevicePresence.Web, :model
 
+  alias DevicePresence.Event
+
   schema "devices" do
     field :name, :string
     field :mac_address, :string
@@ -9,6 +11,8 @@ defmodule DevicePresence.Device do
     field :status, :string
     field :last_seen_at, Ecto.DateTime
     belongs_to :user, User
+    has_many :events, Event
+
     timestamps
   end
 
