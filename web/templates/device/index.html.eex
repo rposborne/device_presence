@@ -6,27 +6,29 @@
       <th>Name</th>
       <th>Mac address</th>
       <th>Last seen at</th>
+      <th>Last seen IP</th>
       <th>Status</th>
 
       <th></th>
     </tr>
   </thead>
   <tbody>
-<%= for device <- @devices do %>
-    <tr>
-      <td><%= device.name %></td>
-      <td><%= device.mac_address %></td>
-      <td><%= device.last_seen_at %></td>
-      <td><%= device.status %></td>
+  <%= for device <- @devices do %>
+      <tr>
+        <td><%= device.name %></td>
+        <td><%= device.mac_address %></td>
+        <td><%= device.last_seen_at %></td>
+        <td><%= device.last_seen_ip %></td>
+        <td><%= offline_icon device.status %></td>
 
-      <td class="text-right">
-        <%= link "Show", to: device_path(@conn, :show, device), class: "btn btn-default btn-xs" %>
-        <%= link "Edit", to: device_path(@conn, :edit, device), class: "btn btn-default btn-xs" %>
-        <%= link "Delete", to: device_path(@conn, :delete, device), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-danger btn-xs" %>
-      </td>
-    </tr>
-<% end %>
+        <td class="text-right">
+          <%= link "Show", to: device_path(@conn, :show, device), class: "btn btn-default btn-xs" %>
+          <%= link "Edit", to: device_path(@conn, :edit, device), class: "btn btn-default btn-xs" %>
+          <%= link "Delete", to: device_path(@conn, :delete, device), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-danger btn-xs" %>
+        </td>
+      </tr>
+  <% end %>
   </tbody>
 </table>
 
-<%= link "New device", to: device_path(@conn, :new) %>
+<%= link "New device", to: device_path(@conn, :new), class: "btn btn-success" %>

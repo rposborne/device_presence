@@ -18,18 +18,6 @@
   </div>
 
   <div class="form-group">
-    <%= label f, :last_seen_at, class: "control-label" %>
-    <%= datetime_select f, :last_seen_at, class: "form-control" %>
-    <%= error_tag f, :last_seen_at %>
-  </div>
-
-  <div class="form-group">
-    <%= label f, :status, class: "control-label" %>
-    <%= text_input f, :status, class: "form-control" %>
-    <%= error_tag f, :status %>
-  </div>
-
-  <div class="form-group">
     <%= submit "Submit", class: "btn btn-primary" %>
   </div>
 <% end %>

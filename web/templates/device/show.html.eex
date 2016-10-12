@@ -1,4 +1,4 @@
-<h2>Show device</h2>
+<h2>Device Detail</h2>
 
 <ul>
 
@@ -13,13 +13,18 @@
   </li>
 
   <li>
+    <strong>Last seen ip:</strong>
+    <%= @device.last_seen_ip %>
+  </li>
+
+  <li>
     <strong>Last seen at:</strong>
     <%= @device.last_seen_at %>
   </li>
 
   <li>
     <strong>Status:</strong>
-    <%= @device.status %>
+    <%= offline_icon @device.status %>
   </li>
 
 </ul>
@@ -32,11 +37,12 @@
   </tr></thead>
   <%= for event <- @events do %>
     <tr>
-      <td><%= event.event_type %></td>
+      <td><%= offline_icon event.event_type %></td>
       <td><%= event.inserted_at %></td>
     </tr>
   <% end %>
 </table>
 
-<%= link "Edit", to: device_path(@conn, :edit, @device) %>
-<%= link "Back", to: device_path(@conn, :index) %>
+<%= link "Edit", to: device_path(@conn, :edit, @device), class: "btn btn-success" %>
+
+<%= link "Back", to: device_path(@conn, :index), class: "btn btn-default" %>

@@ -27,4 +27,4 @@
   </tbody>
 </table>
 
-<%= link "New collector", to: collector_path(@conn, :new) %>
+<%= link "New collector", to: collector_path(@conn, :new), class: "btn btn-success" %>
