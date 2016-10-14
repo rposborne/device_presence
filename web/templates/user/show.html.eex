@@ -1,24 +1,25 @@
-<h2>Show user</h2>
+<h2><%= @user.name %></h2>
 
 <ul>
-
-  <li>
-    <strong>Name:</strong>
-    <%= @user.name %>
-  </li>
-
   <li>
     <strong>Email:</strong>
     <%= @user.email %>
   </li>
-  <li>
-  <%= for device <- @devices do %>
-    <tr>
-      <td><%= device.mac_address %></td>
-    </tr>
-  <% end %>
-  </li>
 </ul>
 
-<%= link "Edit", to: user_path(@conn, :edit, @user) %>
-<%= link "Back", to: user_path(@conn, :index) %>
+<h3>
+  Devices
+  <small>(<%= Enum.count(@devices)%>)</small>
+</h3>
+
+<ul>
+  <%= for device <- @devices do %>
+    <li><%= device_name(@conn, device) %></li>
+  <% end %>
+</ul>
+
+<%= render DevicePresence.DeviceView, "_events.html", events: @events %>
+
+<%= link "Edit", to: user_path(@conn, :edit, @user), class: "btn btn-default" %>
+
+<%= link "Back", to: user_path(@conn, :index), class: "btn btn-default" %>

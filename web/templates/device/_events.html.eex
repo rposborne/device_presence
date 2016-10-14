@@ -1,0 +1,16 @@
+<h3>
+  Events
+  <small>(<%= Enum.count(@events)%>)</small>
+</h3>
+<table class="table">
+  <thead><tr>
+    <th>Status</th>
+    <th>Occurred</th>
+  </tr></thead>
+  <%= for event <- @events do %>
+    <tr>
+      <td><%= offline_icon event.event_type %></td>
+      <td><%= event.inserted_at %></td>
+    </tr>
+  <% end %>
+</table>
