@@ -1,11 +1,5 @@
 defmodule DevicePresence.DeviceView do
   use DevicePresence.Web, :view
+  import DevicePresence.EventHelpers
 
-  def offline_icon(msg) do
-    if msg == "offline" do
-      content_tag(:span, "▼ #{msg}", class: "device-down")
-    else
-      content_tag(:span, "▲ #{msg}", class: "device-up")
-    end
-  end
 end

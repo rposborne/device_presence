@@ -16,7 +16,9 @@
       <header class="header">
         <nav role="navigation">
           <ul class="nav nav-pills pull-right">
-
+            <li class="nav-item"><%= link "Collectors", to: collector_path(@conn, :index) %></li>
+            <li class="nav-item"><%= link "Users", to: user_path(@conn, :index) %></li>
+            <li class="nav-item"><%= link "Devices", to: device_path(@conn, :index) %></li>
           </ul>
         </nav>
       </header>

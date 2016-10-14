@@ -5,7 +5,15 @@
   <li>
     <strong>Name:</strong>
     <%= @device.name %>
+    <%= link "✏️", to: device_path(@conn, :edit, @device) %>
   </li>
+
+  <% if @device.user_id do %>
+    <li>
+      <strong>Owned By:</strong>
+      <%= DevicePresence.Repo.get(DevicePresence.User, @device.user_id).email %>
+    </li>
+  <% end %>
 
   <li>
     <strong>Mac address:</strong>

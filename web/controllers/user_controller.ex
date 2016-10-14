@@ -29,8 +29,9 @@ defmodule DevicePresence.UserController do
 
   def show(conn, %{"id" => id}) do
     user = Repo.get!(User, id)
-    devices = Repo.all(Device)
-    render(conn, "show.html", user: user, devices: devices)
+    devices = assoc(user, :devices) |> Repo.all
+    events = assoc(user, :events) |> User.with_recent_events |> Repo.all
+    render(conn, "show.html", user: user, devices: devices, events: events)
   end
 
   def edit(conn, %{"id" => id}) do

@@ -1,6 +1,4 @@
 <h1>Watcher</h1>
 <ul>
-  <li><%= link "Collectors", to: collector_path(@conn, :index) %></li>
-  <li><%= link "Users", to: user_path(@conn, :index) %></li>
-  <li><%= link "Devices", to: device_path(@conn, :index) %></li>
+
 </ul>
