@@ -35,6 +35,7 @@ defmodule DevicePresence.Mixfile do
      {:phoenix_ecto, "~> 3.0"},
      {:phoenix_html, "~> 2.4"},
      {:timex, "~> 3.0" },
+     {:timex_ecto, "~> 3.0.5"},
      {:phoenix_live_reload, "~> 1.0", only: :dev},
      {:gettext, "~> 0.9"},
      {:credo, "~> 0.4", only: [:dev, :test]},

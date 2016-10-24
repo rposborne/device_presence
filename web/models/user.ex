@@ -22,6 +22,7 @@ defmodule DevicePresence.User do
   def with_recent_events(query) do
     from o in query,
       order_by: [desc: o.inserted_at],
-      where: o.occured_at > ^(Timex.now |> Timex.shift( days: -7))
+      where: o.updated_at > ^(Timex.now |> Timex.shift( days: -7))
   end
+
 end

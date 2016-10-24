@@ -59,6 +59,14 @@ defmodule DevicePresence.ScanController do
   end
 
   def store_event(device, type) do
-    Event.changeset(%Event{}, %{collector_id: device.collector_id, device_id: device.id, event_type: type, occured_at: DateTime.utc_now}) |> Repo.insert!
+    event_time = DateTime.utc_now
+    update_prev_event(device, event_time)
+
+    Event.changeset(%Event{}, %{collector_id: device.collector_id, device_id: device.id, event_type: type, started_at: event_time}) |> Repo.insert!
+  end
+
+  def update_prev_event(device, time) do
+    event = Device.most_recent_event(device) |> Repo.one!
+    Event.changeset(event, %{ended_at: time}) |> Repo.update! |> IO.inspect
   end
 end

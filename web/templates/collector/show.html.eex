@@ -1,5 +1,5 @@
 <h2>Show collector</h2>
-
+<%= link "Online Users", to: collector_path(@conn, :show_online, @collector.id), class: "btn btn-default" %>
 <ul>
 
   <li>

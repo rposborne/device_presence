@@ -1,0 +1,18 @@
+<h2><%= @collector.name %></h2>
+<h3>People Here</h3>
+
+
+<table class="table">
+<tr>
+  <th>Who</th>
+  <th>Saw last</th>
+  <th>Arrived</th>
+</tr>
+  <%= for user <- @users do %>
+    <tr>
+      <td><%= elem(user, 0) %></td>
+      <td><%= timeago_tag elem(user, 1) %></td>
+      <td><%= timeago_tag elem(user, 2) %></td>
+      </tr>
+  <% end %>
+</table>

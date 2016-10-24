@@ -14,7 +14,12 @@
 
 <ul>
   <%= for device <- @devices do %>
-    <li><%= device_name(@conn, device) %></li>
+    <li>
+      <%= device_name(@conn, device) %>
+      <small>
+        seen: <%= timeago_tag(device.last_seen_at) %>
+      </small>
+    </li>
   <% end %>
 </ul>
 

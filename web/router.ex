@@ -20,6 +20,7 @@ defmodule DevicePresence.Router do
     resources "/users", UserController
     resources "/devices", DeviceController
     resources "/collectors", CollectorController
+    get "/collectors/:id/online_users", CollectorController, :show_online
   end
 
   # Other scopes may use custom stacks.

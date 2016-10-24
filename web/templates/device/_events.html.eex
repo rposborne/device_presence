@@ -5,12 +5,16 @@
 <table class="table">
   <thead><tr>
     <th>Status</th>
-    <th>Occurred</th>
+    <th>From</th>
+    <th>Til</th>
+    <th>Detected</th>
   </tr></thead>
   <%= for event <- @events do %>
     <tr>
       <td><%= offline_icon event.event_type %></td>
-      <td><%= event.inserted_at %></td>
+      <td><%= event.started_at %></td>
+      <td><%= event.ended_at %></td>
+      <td><%= timeago_tag(event.inserted_at) %></td>
     </tr>
   <% end %>
 </table>

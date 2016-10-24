@@ -2,7 +2,7 @@ defmodule DevicePresence.CollectorController do
   use DevicePresence.Web, :controller
 
   alias DevicePresence.Collector
-
+  alias DevicePresence.Device
 
   def index(conn, _params) do
     collectors = Repo.all(Collector)
@@ -31,6 +31,13 @@ defmodule DevicePresence.CollectorController do
     collector = Repo.get!(Collector, id)
     devices = Repo.all assoc(collector, :devices)
     render(conn, "show.html", collector: collector, devices: devices)
+  end
+
+  def show_online(conn, %{"id" => id}) do
+    collector = Repo.get!(Collector, id)
+    devices = assoc(collector, :devices) |>  Device.online
+    users = collector |>  Collector.online_users |> Repo.all
+    render(conn, "show_online.html", collector: collector, users: users)
   end
 
   def edit(conn, %{"id" => id}) do

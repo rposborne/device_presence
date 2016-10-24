@@ -34,7 +34,7 @@
 #   def persist_event(event, collector) do
 #     device = event |> get_device_for_event
 #     prev_device = event |> get_prev_device_for_event
-#     {:ok, occured_at} =  Ecto.DateTime.cast(event[:time])
+#     {:ok, occured_at} =  Timex.Ecto.DateTime.cast(event[:time])
 #     # id, node, prevtime, time, type
 #     #
 #     %DevicePresence.Event{
@@ -54,7 +54,7 @@
 #       fing_node: device.id,
 #       collector_id: collector.id,
 #       last_seen_ip: device.inetAddress,
-#       last_seen_at: Ecto.DateTime.from_erl(:calendar.universal_time())
+#       last_seen_at: Timex.Ecto.DateTime.from_erl(:calendar.universal_time())
 #      }
 #      |> DevicePresence.Device.changeset
 #      |> DevicePresence.Repo.insert

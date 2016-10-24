@@ -30,7 +30,7 @@ defmodule DevicePresence.DeviceController do
 
   def show(conn, %{"id" => id}) do
     device = Repo.get!(Device, id)
-    events = Repo.all assoc(device, :events)
+    events = (from e in assoc(device, :events), order_by: [desc: :inserted_at], limit: 20) |> Repo.all
     render(conn, "show.html", device: device, events: events)
   end
 

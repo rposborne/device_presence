@@ -2,7 +2,7 @@ defmodule DevicePresence.CollectorScan do
   use DevicePresence.Web, :model
 
   schema "collector_scans" do
-    field :occurred_at, Ecto.DateTime
+    field :occurred_at, Timex.Ecto.DateTime
     belongs_to :collector, DevicePresence.Collector
 
     timestamps()
