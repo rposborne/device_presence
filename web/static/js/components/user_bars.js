@@ -19,7 +19,7 @@ Vue.component('user-devices', {
 
     var date = new Date();
     var day = addZ(date.getUTCDate());
-    var month = addZ(date.getUTCMonth());
+    var month = addZ(date.getUTCMonth() + 1);
     var year = date.getUTCFullYear();
 
     return {

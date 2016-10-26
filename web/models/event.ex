@@ -63,6 +63,6 @@ defmodule DevicePresence.Event do
   end
 
   def duration(event) do
-    Timex.diff(event.ended_at,event.started_at, :minutes)
+    Timex.diff(event.ended_at || Timex.now, event.started_at, :minutes)
   end
 end
