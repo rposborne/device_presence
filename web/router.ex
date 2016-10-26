@@ -27,6 +27,16 @@ defmodule DevicePresence.Router do
   scope "/api", DevicePresence do
     pipe_through :api
 
+    resources "/devices", DeviceApiController do
+      resources "/events", EventController, except: [:new, :edit]
+      get "/events/for/:for_date", EventController, :for_date
+    end
+
+    resources "/users", UserController do
+      resources "/devices", DeviceApiController
+    end
+
+
     post "/devices/scan", ScanController, :create
   end
 end

@@ -5,3 +5,19 @@
 .device-down {
   color: red;
 }
+
+.event-bar{
+  box-sizing: border-box;
+  height: 100px;
+  background-color: #eee;
+}
+
+.event-bar div {
+  position: relative;
+  height:100px;
+  display: inline-block;
+}
+
+.event-bar div.online {
+  background-color: #34d034;
+}

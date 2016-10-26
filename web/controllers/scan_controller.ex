@@ -12,7 +12,7 @@ defmodule DevicePresence.ScanController do
 
     # For a collector, go through devices, see who is reporting.
     # If expect online, and in payload, do nothing.
-    # If state change has occured record an event
+    # If state change has occurred record an event
     conn
     |> send_resp(202, "")
   end

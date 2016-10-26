@@ -40,9 +40,20 @@ defmodule DevicePresence.Device do
       where: o.status == ^"online"
   end
 
+  def for_user(user_id) do
+    from e in __MODULE__,
+      where: e.user_id == ^user_id,
+      order_by: [desc: e.inserted_at]
+  end
+
   def with_users(query) do
     from d in query,
       preload: [:user]
+  end
+
+  def with_events(query) do
+    from d in query,
+      preload: [:events]
   end
 
   def most_recent_event(device) do

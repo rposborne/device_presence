@@ -21,3 +21,16 @@ import "./timeago_start"
 // paths "./socket" or full ones "web/static/js/socket".
 
 // import socket from "./socket"
+
+import Vue from 'vue/dist/vue'
+import usersDevices from './components/user_bars'
+
+
+if (window.looking_at_user) {
+  new Vue({
+    el: 'main#watcher',
+    data: {
+      user: window.looking_at_user
+    }
+  });  
+}

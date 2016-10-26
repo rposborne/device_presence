@@ -2,3 +2,7 @@
 <ul>
 
 </ul>
+
+<main id="watcher">
+<user-devices v-bind:devices="devices"></user-devices>
+</main>

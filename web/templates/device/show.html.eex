@@ -37,6 +37,7 @@
 
 </ul>
 
+
 <%= render "_events.html", events: @events %>
 
 

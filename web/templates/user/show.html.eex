@@ -12,18 +12,24 @@
   <small>(<%= Enum.count(@devices)%>)</small>
 </h3>
 
-<ul>
-  <%= for device <- @devices do %>
-    <li>
-      <%= device_name(@conn, device) %>
-      <small>
-        seen: <%= timeago_tag(device.last_seen_at) %>
-      </small>
-    </li>
-  <% end %>
-</ul>
+<script type="text/javascript">
+  window.looking_at_user = <%= @user.id %>;
+</script>
 
-<%= render DevicePresence.DeviceView, "_events.html", events: @events %>
+<main id="watcher">
+  <user-devices :user="user"></user-devices>
+
+  <ul>
+    <%= for device <- @devices do %>
+      <li>
+        <%= device_name(@conn, device) %>
+        <small>
+          seen: <%= timeago_tag(device.last_seen_at) %>
+        </small>
+      </li>
+    <% end %>
+  </ul>
+</main>
 
 <%= link "Edit", to: user_path(@conn, :edit, @user), class: "btn btn-default" %>
 
