@@ -16,11 +16,11 @@ Vue.component('user-devices', {
   props: ['user'],
   data:  function () {
     function addZ(n){return n<10? '0'+n:''+n;}
-    
+
     var date = new Date();
-    var day = addZ(date.getDate());
-    var month = addZ(date.getMonth());
-    var year = date.getFullYear();
+    var day = addZ(date.getUTCDate());
+    var month = addZ(date.getUTCMonth());
+    var year = date.getUTCFullYear();
 
     return {
       devices: [],
@@ -38,7 +38,7 @@ Vue.component('user-devices', {
     this.loadData();
   },
   mounted: function () {
-    var vm = this
-    $(this.$el).timeago()
+    var vm = this;
+    $(this.$el).timeago();
   }
 })
