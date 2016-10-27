@@ -15,16 +15,11 @@ Vue.component('user-devices', {
   ,
   props: ['user'],
   data:  function () {
-    function addZ(n){return n<10? '0'+n:''+n;}
-
     var date = new Date();
-    var day = addZ(date.getUTCDate());
-    var month = addZ(date.getUTCMonth() + 1);
-    var year = date.getUTCFullYear();
 
     return {
       devices: [],
-      date: `${year}-${month}-${day}`
+      date: date
     }
   },
   methods: {

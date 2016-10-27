@@ -42,15 +42,15 @@ defmodule DevicePresence.Event do
     |> cast(params, @required_fields)
   end
 
-  def for_device(device_id) do
+  def for_device(device_id, dir \\ :desc) do
     from e in __MODULE__,
       where: e.device_id == ^device_id,
-      order_by: [desc: e.inserted_at]
+      order_by: [{^dir, e.inserted_at}]
   end
 
   def for_day(query, date) do
-    date = Timex.parse!(date, "%Y-%m-%d", :strftime)
-    IO.inspect date
+    {:ok, date} = Timex.parse(date, "%Y-%m-%dT%H:%M:%S.%LZ%:z", :strftime)
+    IO.inspect Timex.beginning_of_day(date)
     from e in query,
       where: e.inserted_at >= ^Timex.beginning_of_day(date),
       where: e.inserted_at <= ^Timex.end_of_day(date)
