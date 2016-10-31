@@ -1,0 +1,7 @@
+.devices .controls {
+  text-align: center;
+}
+.devices .controls span {
+  display: inline-block;
+  padding-top:8px;
+}

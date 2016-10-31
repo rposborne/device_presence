@@ -10,14 +10,15 @@
   box-sizing: border-box;
   height: 100px;
   background-color: #eee;
-}
-
-.event-bar div {
   position: relative;
-  height:100px;
-  display: inline-block;
 }
 
-.event-bar div.online {
+.event-bar span {
+  position: absolute;;
+  height:100px;
+  display: block;
+}
+
+.event-bar span.online {
   background-color: #34d034;
 }

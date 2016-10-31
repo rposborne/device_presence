@@ -16,3 +16,11 @@ defmodule DevicePresence.EventTest do
     refute changeset.valid?
   end
 end
+
+
+
+# started_at: "2016-10-25T17:50:36.12745-04:00",
+# id: 10540,
+# event_type: "offline",
+# ended_at: "2016-10-26T08:34:27.024283-04:00",
+# duration_in_minutes: 514

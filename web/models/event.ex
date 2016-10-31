@@ -49,11 +49,9 @@ defmodule DevicePresence.Event do
   end
 
   def for_day(query, date) do
-    {:ok, date} = Timex.parse(date, "%Y-%m-%dT%H:%M:%S.%LZ%:z", :strftime)
-    IO.inspect Timex.beginning_of_day(date)
     from e in query,
-      where: e.inserted_at >= ^Timex.beginning_of_day(date),
-      where: e.inserted_at <= ^Timex.end_of_day(date)
+      where:
+      e.started_at >= ^Timex.beginning_of_day(date) and e.started_at <= ^Timex.end_of_day(date) or e.ended_at >= ^Timex.beginning_of_day(date) and e.ended_at <= ^Timex.end_of_day(date)
   end
 
   def most_recent(query) do
@@ -64,5 +62,22 @@ defmodule DevicePresence.Event do
 
   def duration(event) do
     Timex.diff(event.ended_at || Timex.now, event.started_at, :minutes)
+  end
+
+  def duration_of_day(event, timezone) do
+    end_at = Timex.Timezone.convert(event.ended_at, timezone) || Timex.Timezone.name_of(timezone) |> Timex.now
+    start_at = event.started_at |> Timex.Timezone.convert(timezone)
+
+    IO.inspect Timex.Timezone.name_of(end_at.time_zone)
+
+    if Timex.before?(start_at, Timex.Timezone.beginning_of_day(end_at)) do
+      start_at = Timex.Timezone.beginning_of_day(end_at)
+    end
+
+    if Timex.after?(end_at, Timex.Timezone.end_of_day(start_at)) do
+      end_at = Timex.Timezone.end_of_day(start_at)
+    end
+
+    Timex.diff(end_at, start_at, :minutes)
   end
 end
