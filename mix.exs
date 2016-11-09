@@ -18,8 +18,16 @@ defmodule DevicePresence.Mixfile do
   # Type `mix help compile.app` for more information.
   def application do
     [mod: {DevicePresence, []},
-     applications: [:phoenix, :phoenix_html, :cowboy, :logger, :gettext,
-                    :phoenix_ecto, :postgrex, :timex]]
+     applications: [:phoenix,
+                    :phoenix_html,
+                    :cowboy,
+                    :logger,
+                    :gettext,
+                    :phoenix_ecto,
+                    :postgrex,
+                    :timex,
+                    :timex_ecto,
+                    :distillery]]
   end
 
   # Specifies which paths to compile per environment.
