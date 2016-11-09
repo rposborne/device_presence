@@ -20,6 +20,7 @@ defmodule DevicePresence.Mixfile do
     [mod: {DevicePresence, []},
      applications: [:phoenix,
                     :phoenix_html,
+                    :phoenix_pubsub,
                     :cowboy,
                     :logger,
                     :gettext,
