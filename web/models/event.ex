@@ -65,7 +65,12 @@ defmodule DevicePresence.Event do
   end
 
   def duration_of_day(event, timezone) do
-    end_at = Timex.Timezone.convert(event.ended_at, timezone) || Timex.Timezone.name_of(timezone) |> Timex.now
+    if event.ended_at do
+      end_at = Timex.Timezone.convert(event.ended_at, timezone)
+    else
+      end_at = Timex.Timezone.name_of(timezone) |> Timex.now
+    end
+
     start_at = event.started_at |> Timex.Timezone.convert(timezone)
 
     IO.inspect Timex.Timezone.name_of(end_at.time_zone)

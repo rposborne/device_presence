@@ -2,7 +2,7 @@ defmodule DevicePresence.EventView do
   use DevicePresence.Web, :view
   alias DevicePresence.Event
 
-  def render("index.json", %{events: events, date: date}) do
+  def render("index.json", %{events: events}) do
     %{data: render_many(events, DevicePresence.EventView, "event.json")}
   end
 

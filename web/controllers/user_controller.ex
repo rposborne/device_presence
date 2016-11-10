@@ -2,7 +2,6 @@ defmodule DevicePresence.UserController do
   use DevicePresence.Web, :controller
 
   alias DevicePresence.User
-  alias DevicePresence.Device
 
   def index(conn, _params) do
     users = Repo.all(User)

@@ -31,15 +31,16 @@ Vue.component('event-bar', {
   },
   methods: {
     loadData: function () {
-      $.get('/api/devices/'+this.device.id+'/events/for/' + this.convertDateToQuery(this.date), function (response) {
+      $.get(`/api/devices/${ this.device.id }/events/for/${this.convertDateToQuery(this.date)}`, function (response) {
 
         var total_duration = response.data.map(function(e) {
           return e.duration_in_minutes;
         }).reduce((a, b) => a + b, 0);
+
         this.$data.events = response.data.sort(function(a,b){
           return b.inserted_at-a.inserted_at;
         });
-        console.log(total_duration);
+
         this.$data.total_duration = total_duration;
       }.bind(this));
     },
@@ -52,8 +53,7 @@ Vue.component('event-bar', {
     },
     eventTitle: function eventTitle(event) {
       let started_at = moment(event.started_at);
-      let ended_at = moment(event.ended_at);
-
+      let ended_at   = moment(event.ended_at);
 
       return `${started_at.format("LT")} to ${ended_at.format("LT")} for ${ended_at.diff(started_at, "minutes")}`;
     }

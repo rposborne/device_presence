@@ -1,7 +1,6 @@
 defmodule DevicePresence.Collector do
   use DevicePresence.Web, :model
 
-  alias DevicePresence.Device
   alias DevicePresence.Event
   alias DevicePresence.User
 
@@ -34,6 +33,7 @@ defmodule DevicePresence.Collector do
       join: e in assoc(u, :events),
       distinct: u.id,
       where: d.status == ^"online",
+      where:  e.collector_id == ^collector.id,
       where: e.started_at <= ^(Timex.now |> Timex.beginning_of_day),
       order_by: [desc: e.updated_at],
       select: {u.name, d.last_seen_at, e.started_at, e.ended_at}
