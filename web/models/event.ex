@@ -73,8 +73,6 @@ defmodule DevicePresence.Event do
 
     start_at = event.started_at |> Timex.Timezone.convert(timezone)
 
-    IO.inspect Timex.Timezone.name_of(end_at.time_zone)
-
     if Timex.before?(start_at, Timex.Timezone.beginning_of_day(end_at)) do
       start_at = Timex.Timezone.beginning_of_day(end_at)
     end

@@ -6,11 +6,11 @@ Vue.component('attendance', {
   <section class='attendance'>
     <div v-if='present()'>
       <small class='text-muted'>
-        arrived @ {{arrivedOnCampus()}}
+        first seen @ {{arrivedOnCampus()}}
       </small>
       <span>On Campus</span>
       <small class='text-muted'>
-        left @ {{leftCampus()}}
+        {{leftCampus()}}
       </small>
     </div>
   </section>`,
@@ -30,7 +30,11 @@ Vue.component('attendance', {
     },
     leftCampus: function leftCampus() {
       let events = this.eventsOfType('online');
-      return this.fT(events[0].ended_at);
+      if (moment(events[0].ended_at).isSameOrAfter(moment().subtract(5, "minutes"))) {
+        return "now"
+      } else {
+        return `left @ ${this.fT(events[0].ended_at)}`;
+      }
     },
     fT: function formatTime(time) {
       return moment(time, moment.ISO_8601).format('LT');
