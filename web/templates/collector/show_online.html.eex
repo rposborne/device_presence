@@ -10,9 +10,9 @@
 </tr>
   <%= for user <- @users do %>
     <tr>
-      <td><%= elem(user, 0) %></td>
-      <td><%= timeago_tag elem(user, 1) %></td>
+      <td><%= link elem(user, 1), to: user_path(@conn, :show, elem(user, 0)) %></td>
       <td><%= timeago_tag elem(user, 2) %></td>
+      <td><%= timeago_tag elem(user, 3) %></td>
       </tr>
   <% end %>
 </table>

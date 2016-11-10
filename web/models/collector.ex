@@ -36,7 +36,7 @@ defmodule DevicePresence.Collector do
       where:  e.collector_id == ^collector.id,
       where: e.started_at <= ^(Timex.now |> Timex.beginning_of_day),
       order_by: [desc: e.updated_at],
-      select: {u.name, d.last_seen_at, e.started_at, e.ended_at}
+      select: {u.id, u.name, d.last_seen_at, e.started_at, e.ended_at}
   end
 
 end
