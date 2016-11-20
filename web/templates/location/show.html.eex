@@ -1,0 +1,20 @@
+<h2>
+  <%= @location.name %>
+  <small>
+    <%= @location.address_1 %>
+    <%= @location.address_2 %>
+    <%= @location.city %>
+    <%= @location.state %>
+    <%= @location.postal_code %>
+    <%= @location.country %>
+  </small>
+</h2>
+
+
+<%= link "Collectors", to: location_collector_path(@conn, :index, @location.id), class: "btn btn-secondary" %>
+
+<%= link "New collector", to: location_collector_path(@conn, :new, @location.id), class: "btn btn-success" %>
+
+<%= link "Edit", to: location_path(@conn, :edit, @location), class: "btn btn-secondary"%>
+
+<%= link "Back", to: location_path(@conn, :index), class: "btn btn-secondary"%>

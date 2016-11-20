@@ -17,7 +17,7 @@
       <a class="navbar-brand" href="/">White Tower</a>
       <div id="navbar">
         <nav class="nav navbar-nav float-xs-left">
-          <%= link "Collectors", to: collector_path(@conn, :index), class: "nav-item nav-link" %>
+          <%= link "Locations", to: location_path(@conn, :index), class: "nav-item nav-link" %>
           <%= link "Users", to: user_path(@conn, :index), class: "nav-item nav-link" %>
           <%= link "Devices", to: device_path(@conn, :index), class: "nav-item nav-link" %>
         </nav>

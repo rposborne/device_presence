@@ -11,9 +11,9 @@
 //
 // If you no longer want to use a dependency, remember
 // to also remove its path from "config.paths.watched".
-import "phoenix_html"
-import "timeago"
-import "./timeago_start"
+import "phoenix_html";
+import "timeago";
+import "./timeago_start";
 
 // Import local files
 //
@@ -22,8 +22,8 @@ import "./timeago_start"
 
 // import socket from "./socket"
 
-import Vue from 'vue/dist/vue'
-import usersDevices from './components/user_bars'
+import Vue from 'vue/dist/vue';
+import usersDevices from './components/user_bars';
 
 
 if (window.looking_at_user) {
@@ -32,5 +32,5 @@ if (window.looking_at_user) {
     data: {
       user: window.looking_at_user
     }
-  });  
+  });
 }

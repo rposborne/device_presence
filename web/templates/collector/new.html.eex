@@ -1,6 +1,6 @@
 <h2>New collector</h2>
 
 <%= render "form.html", changeset: @changeset,
-                        action: collector_path(@conn, :create) %>
+                        action: location_collector_path(@conn, :create, @location.id) %>
 
-<%= link "Back", to: collector_path(@conn, :index) %>
+<%= link "Back", to: location_collector_path(@conn, :index, @location.id) %>

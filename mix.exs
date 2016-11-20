@@ -28,7 +28,8 @@ defmodule DevicePresence.Mixfile do
                     :postgrex,
                     :timex,
                     :timex_ecto,
-                    :distillery]]
+                    :distillery,
+                    :secure_random]]
   end
 
   # Specifies which paths to compile per environment.
@@ -49,7 +50,8 @@ defmodule DevicePresence.Mixfile do
      {:gettext, "~> 0.9"},
      {:credo, "~> 0.4", only: [:dev, :test]},
      {:distillery, "~> 0.10"},
-     {:cowboy, "~> 1.0"}]
+     {:cowboy, "~> 1.0"},
+     {:secure_random, "~> 0.5"}]
   end
 
   # Aliases are shortcut or tasks specific to the current project.

@@ -4,9 +4,8 @@
   <thead>
     <tr>
       <th>Name</th>
-      <th>Location</th>
-      <th>Subnet</th>
-
+      <th>Type</th>
+      <th>Key</th>
       <th></th>
     </tr>
   </thead>
@@ -14,17 +13,17 @@
 <%= for collector <- @collectors do %>
     <tr>
       <td><%= collector.name %></td>
-      <td><%= collector.location %></td>
-      <td><%= collector.subnet %></td>
+      <td><%= collector.type %></td>
+      <td><%= collector.api_key %></td>
 
       <td class="text-right">
-        <%= link "Show", to: collector_path(@conn, :show, collector), class: "btn btn-secondary btn-xs" %>
-        <%= link "Edit", to: collector_path(@conn, :edit, collector), class: "btn btn-secondary btn-xs" %>
-        <%= link "Delete", to: collector_path(@conn, :delete, collector), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-danger btn-xs" %>
+        <%= link "Show", to: location_collector_path(@conn, :show, collector), class: "btn btn-secondary btn-xs" %>
+        <%= link "Edit", to: location_collector_path(@conn, :edit, collector), class: "btn btn-secondary btn-xs" %>
+        <%= link "Delete", to: location_collector_path(@conn, :delete, collector), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-danger btn-xs" %>
       </td>
     </tr>
 <% end %>
   </tbody>
 </table>
 
-<%= link "New collector", to: collector_path(@conn, :new), class: "btn btn-success" %>
+<%= link "New collector", to: location_collector_path(@conn, :new, @location.id), class: "btn btn-success" %>

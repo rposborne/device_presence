@@ -6,19 +6,16 @@
   </li>
 
   <li>
-    <strong>Location:</strong>
-    <%= @collector.location %>
+    <strong>Type:</strong>
+    <%= @collector.type %>
   </li>
 
   <li>
-    <strong>IP:</strong>
-    <%= @collector.ip %>
+    <strong>Key:</strong>
+    <%= @collector.api_key %>
   </li>
 
-  <li>
-    <strong>Subnet:</strong>
-    <%= @collector.subnet %>
-  </li>
+
 </ul>
 
 <h4>
@@ -55,6 +52,6 @@
   </tbody>
 </table>
 
-<%= link "Edit", to: collector_path(@conn, :edit, @collector), class: "btn btn-secondary" %>
+<%= link "Edit", to: location_collector_path(@conn, :edit, @collector), class: "btn btn-secondary" %>
 
-<%= link "Back", to: collector_path(@conn, :index), class: "btn btn-secondary" %>
+<%= link "Back", to: location_collector_path(@conn, :index, @collector.location_id), class: "btn btn-secondary" %>

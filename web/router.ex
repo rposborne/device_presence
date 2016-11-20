@@ -19,7 +19,12 @@ defmodule DevicePresence.Router do
     get "/", PageController, :index
     resources "/users", UserController
     resources "/devices", DeviceController
-    resources "/collectors", CollectorController
+
+    resources "/locations", LocationController do
+      resources "/collectors", CollectorController, only: [:index, :new, :create]
+    end
+    resources "/collectors", CollectorController, except: [:index, :new, :create], as: :location_collector 
+
     get "/collectors/:id/online_users", CollectorController, :show_online
   end
 

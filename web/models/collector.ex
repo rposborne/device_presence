@@ -6,11 +6,9 @@ defmodule DevicePresence.Collector do
 
   schema "collectors" do
     field :name, :string
-    field :location, :string
-    field :ip, :string
-    field :subnet, :string
-    # has_many :devices, Device
-
+    field :type, :string
+    field :api_key, :string
+    belongs_to :location, DevicePresence.Location
     has_many :events, Event
     has_many :devices, through: [:events, :device]
     has_many :users, through: [:devices, :user]
@@ -23,8 +21,8 @@ defmodule DevicePresence.Collector do
   """
   def changeset(struct, params \\ %{}) do
     struct
-    |> cast(params, [:name, :location, :subnet, :ip])
-    |> validate_required([:name, :ip])
+    |> cast(params, [:name, :location_id, :type])
+    |> validate_required([:name, :type, :location_id])
   end
 
   def online_users(collector) do
