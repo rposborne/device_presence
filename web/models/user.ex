@@ -4,6 +4,10 @@ defmodule DevicePresence.User do
   schema "users" do
     field :name, :string
     field :email, :string
+    field :slack_mention_name, :string
+    field :slack_user_id, :string
+    field :github_username, :string
+    
     has_many :devices, DevicePresence.Device
     has_many :events, through: [:devices, :events]
 
@@ -15,8 +19,8 @@ defmodule DevicePresence.User do
   """
   def changeset(struct, params \\ %{}) do
     struct
-    |> cast(params, [:name, :email])
-    |> validate_required([:name, :email])
+    |> cast(params, [:name, :email, :slack_mention_name, :slack_user_id, :github_username])
+    |> validate_required([:name])
   end
 
   def with_recent_events(query) do
