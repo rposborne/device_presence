@@ -1,4 +1,4 @@
-defmodule DevicePresence.PersistDeviceScan do
+defmodule DevicePresence.DevicePresenceHandler do
   alias DevicePresence.Repo
   import Ecto
   import Ecto.Query, only: [from: 1, from: 2]
@@ -8,7 +8,7 @@ defmodule DevicePresence.PersistDeviceScan do
   # For a collector, go through devices, see who is reporting.
   # If expect online, and in payload, do nothing.
   # If state change has occurred record an event
-  
+
   def update_status(device, reporting_devices) do
     online_device = Enum.find(reporting_devices, fn(d) -> d["mac_address"] == device.mac_address end)
 

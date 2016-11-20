@@ -14,7 +14,7 @@
 
   <div class="form-group">
     <%= label f, :type, class: "control-label" %>
-    <%= select f, :type, ["device_presence", "slack", "github"] |> Enum.map(&{&1, &1}), class: "form-control" , prompt: 'Choose a Type'%>
+    <%= select f, :type, ["device_presence", "slack_presence", "github"] |> Enum.map(&{&1, &1}), class: "form-control" , prompt: 'Choose a Type'%>
     <%= error_tag f, :type %>
   </div>
   <div class="form-group">

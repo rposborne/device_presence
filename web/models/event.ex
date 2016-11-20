@@ -24,12 +24,14 @@ defmodule DevicePresence.Event do
     field :ended_at, Timex.Ecto.DateTime
     field :event_type, :string
     belongs_to :device, Device
+    belongs_to :user, User
     belongs_to :collector, Collector
 
     timestamps
   end
 
-  @required_fields [:device_id, :collector_id, :event_type, :started_at, :ended_at]
+  @fields [:device_id, :user_id, :collector_id, :event_type, :started_at, :ended_at]
+  @required_fields [:collector_id, :event_type, :started_at, :ended_at]
 
   @doc """
   Creates a changeset based on the `model` and `params`.
@@ -39,7 +41,7 @@ defmodule DevicePresence.Event do
   """
   def changeset(model, params \\ %{}) do
     model
-    |> cast(params, @required_fields)
+    |> cast(params, @fields)
   end
 
   def for_device(device_id, dir \\ :desc) do

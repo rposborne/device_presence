@@ -13,6 +13,11 @@ defmodule DevicePresence.Router do
     plug :accepts, ["json"]
   end
 
+  pipeline :probes do
+    plug :accepts, ["json"]
+    plug TokenAuth
+  end
+
   scope "/", DevicePresence do
     pipe_through :browser # Use the default browser stack
 
@@ -23,7 +28,7 @@ defmodule DevicePresence.Router do
     resources "/locations", LocationController do
       resources "/collectors", CollectorController, only: [:index, :new, :create]
     end
-    resources "/collectors", CollectorController, except: [:index, :new, :create], as: :location_collector 
+    resources "/collectors", CollectorController, except: [:index, :new, :create], as: :location_collector
 
     get "/collectors/:id/online_users", CollectorController, :show_online
   end
@@ -43,5 +48,10 @@ defmodule DevicePresence.Router do
 
 
     post "/devices/scan", ScanController, :create
+
+  end
+  scope "/probes", DevicePresence do
+    pipe_through :probes
+    post "/collectors/report", ScanController, :create
   end
 end
