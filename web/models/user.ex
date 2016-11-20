@@ -15,8 +15,8 @@ defmodule DevicePresence.User do
   """
   def changeset(struct, params \\ %{}) do
     struct
-    |> cast(params, [:name, :email])
-    |> validate_required([:name, :email])
+    |> cast(params, [:name, :email, :slack_mention_name, :slack_user_id, :github_username])
+    |> validate_required([:name])
   end
 
   def with_recent_events(query) do
