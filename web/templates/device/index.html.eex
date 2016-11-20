@@ -1,12 +1,12 @@
-<h2>Listing devices</h2>
+<h2>Devices</h2>
 
 <table class="table">
   <thead>
     <tr>
       <th>Name</th>
-      <th>Mac address</th>
-      <th>Last seen at</th>
-      <th>Last seen IP</th>
+      <th>Mac Address</th>
+      <th>Last at</th>
+      <th>Last IP</th>
       <th>Status</th>
 
       <th></th>
@@ -17,13 +17,13 @@
       <tr>
         <td><%= device.name %></td>
         <td><%= device.mac_address %></td>
-        <td><%= device.last_seen_at %></td>
+        <td><%= timeago_tag device.last_seen_at %></td>
         <td><%= device.last_seen_ip %></td>
         <td><%= offline_icon device.status %></td>
 
         <td class="text-right">
-          <%= link "Show", to: device_path(@conn, :show, device), class: "btn btn-default btn-xs" %>
-          <%= link "Edit", to: device_path(@conn, :edit, device), class: "btn btn-default btn-xs" %>
+          <%= link "Show", to: device_path(@conn, :show, device), class: "btn btn-secondary btn-xs" %>
+          <%= link "Edit", to: device_path(@conn, :edit, device), class: "btn btn-secondary btn-xs" %>
           <%= link "Delete", to: device_path(@conn, :delete, device), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-danger btn-xs" %>
         </td>
       </tr>

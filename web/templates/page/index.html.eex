@@ -1,8 +1,3 @@
-<h1>Watcher</h1>
-<ul>
-
-</ul>
-
 <main id="watcher">
-<user-devices v-bind:devices="devices"></user-devices>
+  <user-devices v-bind:devices="devices"></user-devices>
 </main>

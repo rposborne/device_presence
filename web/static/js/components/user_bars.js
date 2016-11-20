@@ -6,9 +6,9 @@ Vue.component('user-devices', {
   template:
     `<div class='devices'>
       <div class='controls'>
-        <button class='btn btn-default pull-left' @click="prevDay">Prev</button>
+        <button class='btn btn-secondary pull-left' @click="prevDay">Prev</button>
         <span>{{dayOfWeek()}}</span>
-        <button v-show='thereIsTommorow()' class='btn btn-default pull-right' @click="nextDay">Next</button>
+        <button v-show='thereIsTommorow()' class='btn btn-secondary pull-right' @click="nextDay">Next</button>
       </div>
       <template v-for="device in devices">
         <h3>{{device.name}}

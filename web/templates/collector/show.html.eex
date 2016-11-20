@@ -1,7 +1,5 @@
-<h2>Show collector</h2>
-<%= link "Online Users", to: collector_path(@conn, :show_online, @collector.id), class: "btn btn-default" %>
+<h2>Collector</h2>
 <ul>
-
   <li>
     <strong>Name:</strong>
     <%= @collector.name %>
@@ -13,7 +11,7 @@
   </li>
 
   <li>
-    <strong>ip:</strong>
+    <strong>IP:</strong>
     <%= @collector.ip %>
   </li>
 
@@ -23,7 +21,9 @@
   </li>
 </ul>
 
-<h3>Devices at this location</h3>
+<h4>
+  Devices
+</h4>
 <table class="table">
   <thead>
     <tr>
@@ -46,8 +46,8 @@
         <td><%= offline_icon device.status %></td>
 
         <td class="text-right">
-          <%= link "Show", to: device_path(@conn, :show, device), class: "btn btn-default btn-xs" %>
-          <%= link "Edit", to: device_path(@conn, :edit, device), class: "btn btn-default btn-xs" %>
+          <%= link "Show", to: device_path(@conn, :show, device), class: "btn btn-secondary btn-xs" %>
+          <%= link "Edit", to: device_path(@conn, :edit, device), class: "btn btn-secondary btn-xs" %>
           <%= link "Delete", to: device_path(@conn, :delete, device), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-danger btn-xs" %>
         </td>
       </tr>
@@ -55,6 +55,6 @@
   </tbody>
 </table>
 
-<%= link "Edit", to: collector_path(@conn, :edit, @collector), class: "btn btn-default" %>
+<%= link "Edit", to: collector_path(@conn, :edit, @collector), class: "btn btn-secondary" %>
 
-<%= link "Back", to: collector_path(@conn, :index), class: "btn btn-default" %>
+<%= link "Back", to: collector_path(@conn, :index), class: "btn btn-secondary" %>

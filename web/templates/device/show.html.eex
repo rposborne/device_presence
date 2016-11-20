@@ -43,4 +43,4 @@
 
 <%= link "Edit", to: device_path(@conn, :edit, @device), class: "btn btn-success" %>
 
-<%= link "Back", to: device_path(@conn, :index), class: "btn btn-default" %>
+<%= link "Back", to: device_path(@conn, :index), class: "btn btn-secondary" %>
