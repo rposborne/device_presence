@@ -5,40 +5,28 @@ defmodule DevicePresence.SlackPresenceHandler do
   alias DevicePresence.User
   alias DevicePresence.Event
 
-  # For a collector, go through devices, see who is reporting.
+  # For a collector, go through users, see who is reporting.
   # If expect online, and in payload, do nothing.
   # If state change has occurred record an event
-
-  def update_status(device, reporting_devices) do
-    online_device = Enum.find(reporting_devices, fn(d) -> d["mac_address"] == device.mac_address end)
-
-    cond do
-      online_device && (device.status == "offline" || device.status == nil || device.status == "") ->
-        store_status(device, "online")
-      online_device && device.status == "online" ->
-        IO.puts "#{device.mac_address} still online"
-      device.status == "online" || (device.status == nil || device.status == "") ->
-        store_status(device, "offline")
-      device.status == "offline" ->
-        IO.puts "#{device.mac_address} still offline"
-    end
+  def update_status(collector, params) do
+    user = find(params["user"])
+    store_event(collector, user, params["presence"])
   end
 
   def persist_user(params) do
     find_or_build(params) |> Repo.insert_or_update
   end
 
-  defp store_status(device, status) do
-    store_event(device, status)
-    Device.changeset(device, %{status: status}) |> Repo.update
-  end
-
-  # This is params not a device object(< what's the right term for this)
-  defp find_or_build(params) do
+  def find(params) do
     query = from u in User,
             where: u.slack_user_id == (^params["id"]) or u.email == (^params["profile"]["email"])
 
-    existing_user = Repo.one(query)
+    Repo.one(query)
+  end
+
+  # This is params not a user object(< what's the right term for this)
+  defp find_or_build(params) do
+    existing_user = find(params)
 
     scrubed_params = %{
       name: params["real_name"],
@@ -54,15 +42,18 @@ defmodule DevicePresence.SlackPresenceHandler do
     end
   end
 
-  def store_event(device, type) do
+  def store_event(collector, user, type) do
     event_time = DateTime.utc_now
-    update_prev_event(device, event_time)
+    update_prev_event(user, event_time)
 
-    Event.changeset(%Event{}, %{collector_id: device.collector_id, device_id: device.id, event_type: type, started_at: event_time}) |> Repo.insert!
+    Event.changeset(%Event{}, %{collector_id: collector.id, user_id: user.id, event_type: type, started_at: event_time}) |> Repo.insert!
   end
 
-  def update_prev_event(device, time) do
-    event = Device.most_recent_event(device) |> Repo.one!
-    Event.changeset(event, %{ended_at: time}) |> Repo.update! |> IO.inspect
+  # TODO track if we actually are seeing a status change. 
+  def update_prev_event(user, time) do
+    case Event.most_recent_for(%{user: user}) |> Repo.one do
+      nil -> IO.puts "No Previous Events"
+      event -> Event.changeset(event, %{ended_at: time}) |> Repo.update!
+    end
   end
 end

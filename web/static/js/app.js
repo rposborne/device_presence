@@ -23,7 +23,7 @@ import "./timeago_start";
 // import socket from "./socket"
 
 import Vue from 'vue/dist/vue';
-import usersDevices from './components/user_bars';
+import usersDevices from './components/user_view';
 
 
 if (window.looking_at_user) {

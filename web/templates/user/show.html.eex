@@ -1,11 +1,29 @@
 <h2><%= @user.name %></h2>
+<div class="row">
+  <div class="col-md-6">
+    <ul>
+      <li>
+        <strong>Email:</strong>
+        <%= @user.email %>
+      </li>
+      <li>
+        <strong>Slack:</strong>
+        <%= @user.slack_mention_name %>
+      </li>
+      <li>
+        <strong>GitHub:</strong>
+        <%= @user.github_username %>
+      </li>
+    </ul>
+  </div>
 
-<ul>
-  <li>
-    <strong>Email:</strong>
-    <%= @user.email %>
-  </li>
-</ul>
+  <div class="col-md-2">
+    <%= if @user.github_username do %>
+        <img src="https://github.com/<%= @user.github_username %>.png?size=200" alt="" class="rounded-circle" width="150">
+    <% end %>
+  </div>
+</div>
+
 
 <h3>
   Devices
@@ -13,11 +31,12 @@
 </h3>
 
 <script type="text/javascript">
-  window.looking_at_user = <%= @user.id %>;
+  window.looking_at_user = {'id':<%= @user.id %>};
 </script>
 
 <main id="watcher">
-  <user-devices :user="user"></user-devices>
+  <user-view :user="user"></user-view>
+
 
   <ul>
     <%= for device <- @devices do %>

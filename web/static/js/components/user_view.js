@@ -2,7 +2,7 @@ import Vue from 'vue/dist/vue';
 import eventBar from './event_bar';
 import moment from 'moment';
 
-Vue.component('user-devices', {
+Vue.component('user-view', {
   template:
     `<div class='devices'>
       <div class='controls'>
@@ -16,8 +16,11 @@ Vue.component('user-devices', {
             seen <time class='timeago' v-bind:datetime='device.last_seen_at' >{{device.last_seen_at}}</time>
           </small>
           </h3>
-        <event-bar :device="device" :date="date"></event-bar>
+        <event-bar eventableType="device" :eventable="device" :date="date"></event-bar>
       </template>
+
+      <h3> Slack Presence</h3>
+      <event-bar phrase="On Campus" eventableType="user" :eventable="user" :date="date"></event-bar>
     </div>`,
   props: ['user'],
   data:  function () {
@@ -30,7 +33,7 @@ Vue.component('user-devices', {
   },
   methods: {
     loadData: function () {
-      $.get('/api/users/'+this.user+"/devices", function (response) {
+      $.get('/api/users/'+this.user.id +"/devices", function (response) {
         this.$data.devices = response.data;
       }.bind(this));
     },
@@ -51,6 +54,20 @@ Vue.component('user-devices', {
   },
   created: function () {
     this.loadData();
+    $(document).keydown(function(e) {
+        if(e.which == 37) {
+          e.preventDefault();
+          this.prevDay();
+        }
+    }.bind(this));
+
+    $(document).keydown(function(e) {
+        if(e.which == 39) {
+          e.preventDefault();
+          this.nextDay();
+        }
+    }.bind(this));
+
   },
   mounted: function () {
     var vm = this;

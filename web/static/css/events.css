@@ -19,6 +19,6 @@
   display: block;
 }
 
-.event-bar span.online {
+.event-bar span.online, .event-bar span.active  {
   background-color: #34d034;
 }

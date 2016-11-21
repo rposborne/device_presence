@@ -8,13 +8,13 @@ Vue.component('attendance', {
       <small class='text-muted'>
         first seen @ {{arrivedOnCampus()}}
       </small>
-      <span>On Campus</span>
+      <span>{{phrase}}</span>
       <small class='text-muted'>
         {{leftCampus()}}
       </small>
     </div>
   </section>`,
-  props: ['events'],
+  props: ['events', 'phrase'],
   methods: {
     eventsOfType: function onlineEvents(type) {
       return this.events.filter(function filterOnlineEvents(event) {
@@ -31,7 +31,7 @@ Vue.component('attendance', {
     leftCampus: function leftCampus() {
       let events = this.eventsOfType('online');
       if (moment(events[0].ended_at).isSameOrAfter(moment().subtract(5, "minutes"))) {
-        return "now"
+        return "now";
       } else {
         return `left @ ${this.fT(events[0].ended_at)}`;
       }

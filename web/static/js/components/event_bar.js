@@ -20,9 +20,9 @@ Vue.component('event-bar', {
     </div>
 
   <div class='clearfix'></div>
-    <attendance :events="events">
+    <attendance :phrase="phrase" :events="events">
   </section>`,
-  props: ['device', 'date'],
+  props: ['eventable', 'date', 'eventableType', 'phrase'],
   data:  function () {
     return {
       events: [],
@@ -31,7 +31,10 @@ Vue.component('event-bar', {
   },
   methods: {
     loadData: function () {
-      $.get(`/api/devices/${ this.device.id }/events/for/${this.convertDateToQuery(this.date)}`, function (response) {
+      let query = {};
+
+      query[this.eventableType + "_id"] = this.eventable.id;
+      $.get(`/api/events/for/${this.convertDateToQuery(this.date)}`, query).done(function (response) {
 
         var total_duration = response.data.map(function(e) {
           return e.duration_in_minutes;

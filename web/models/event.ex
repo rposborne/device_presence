@@ -50,6 +50,12 @@ defmodule DevicePresence.Event do
       order_by: [{^dir, e.inserted_at}]
   end
 
+  def for_user(user_id, dir \\ :desc) do
+    from e in __MODULE__,
+      where: e.user_id == ^user_id,
+      order_by: [{^dir, e.inserted_at}]
+  end
+
   def for_day(query, date) do
     from e in query,
       where:
@@ -60,6 +66,20 @@ defmodule DevicePresence.Event do
     from o in query,
       order_by: [desc: o.inserted_at],
       limit: 1
+  end
+
+  def most_recent_for(%{user: user}) do
+    query = from(e in Event,
+      where: e.user_id == ^user.id,
+      order_by: [desc: e.inserted_at],
+      limit: 1)
+  end
+
+  def most_recent_for(%{device: device}) do
+    query = from(e in Event,
+      where: e.device_id == ^device.id,
+      order_by: [desc: e.inserted_at],
+      limit: 1)
   end
 
   def duration(event) do

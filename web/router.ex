@@ -46,6 +46,9 @@ defmodule DevicePresence.Router do
       resources "/devices", DeviceApiController
     end
 
+    resources "/events", EventController, except: [:new, :edit]
+    get "/events/for/:for_date", EventController, :for_date
+
 
     post "/devices/scan", ScanController, :create
 

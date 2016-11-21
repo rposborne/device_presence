@@ -4,18 +4,15 @@ defmodule DevicePresence.ScanController do
   alias DevicePresence.Collector
   alias DevicePresence.Event
   def create(conn, params) do
-
-    if params["collector_id"] do
-        collector = Repo.get!(DevicePresence.Collector, params["collector_id"])
-    else
-      collector = conn.assigns.collector
-    end
-
+    collector =
+      case params["collector_id"] do
+        nil -> conn.assigns.collector
+        _ -> Repo.get!(DevicePresence.Collector, params["collector_id"])
+      end
 
     case collector.type do
       "device_presence" -> handle_device_presence(collector, params["devices"])
-      "slack_presence" -> handle_slack_presence(collector, params["user"])
-      true -> :ok
+      "slack_presence" -> handle_slack_presence(collector, params)
     end
 
     conn
@@ -31,7 +28,8 @@ defmodule DevicePresence.ScanController do
       |> Enum.each(fn(d) -> DevicePresence.DevicePresenceHandler.update_status(d, devices) end)
   end
 
-  def handle_slack_presence(collector, user_params) do
-    DevicePresence.SlackPresenceHandler.persist_user(user_params)
+  def handle_slack_presence(collector, event_params) do
+    DevicePresence.SlackPresenceHandler.persist_user(event_params["user"])
+    DevicePresence.SlackPresenceHandler.update_status(collector, event_params)
   end
 end
