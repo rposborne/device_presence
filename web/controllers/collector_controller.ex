@@ -16,16 +16,17 @@ defmodule DevicePresence.CollectorController do
     render(conn, "new.html", changeset: changeset, location: location)
   end
 
-  def create(conn, %{"collector" => collector_params}) do
+  def create(conn, %{"location_id" => location_id, "collector" => collector_params}) do
+    location = Repo.get!(Location, location_id)
     changeset = Collector.changeset(%Collector{api_key: SecureRandom.base64(32)}, collector_params)
 
     case Repo.insert(changeset) do
-      {:ok, collector} ->
+      {:ok, _} ->
         conn
         |> put_flash(:info, "Collector created successfully.")
-        |> redirect(to: location_collector_path(conn, :show, collector))
+        |> redirect(to: location_collector_path(conn, :index, location))
       {:error, changeset} ->
-        render(conn, "new.html", changeset: changeset)
+        render(conn, "new.html", changeset: changeset, location: location)
     end
   end
 
@@ -43,12 +44,14 @@ defmodule DevicePresence.CollectorController do
 
   def edit(conn, %{"id" => id}) do
     collector = Repo.get!(Collector, id)
+    location = assoc(collector, :location) |> Repo.one!
     changeset = Collector.changeset(collector)
-    render(conn, "edit.html", collector: collector, changeset: changeset)
+    render(conn, "edit.html", collector: collector, changeset: changeset, location: location)
   end
 
   def update(conn, %{"id" => id, "collector" => collector_params}) do
     collector = Repo.get!(Collector, id)
+    location = assoc(collector, :location) |> Repo.one!
     changeset = Collector.changeset(collector, collector_params)
 
     case Repo.update(changeset) do
@@ -57,7 +60,7 @@ defmodule DevicePresence.CollectorController do
         |> put_flash(:info, "Collector updated successfully.")
         |> redirect(to: location_collector_path(conn, :show, collector))
       {:error, changeset} ->
-        render(conn, "edit.html", collector: collector, changeset: changeset)
+        render(conn, "edit.html", location: location, collector: collector, changeset: changeset)
     end
   end
 
@@ -70,6 +73,6 @@ defmodule DevicePresence.CollectorController do
 
     conn
     |> put_flash(:info, "Collector deleted successfully.")
-    |> redirect(to: location_collector_path(conn, :index, collector.id))
+    |> redirect(to: location_collector_path(conn, :index, collector.location_id))
   end
 end

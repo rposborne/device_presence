@@ -7,7 +7,7 @@ defmodule DevicePresence.LocationControllerTest do
   @invalid_attrs %{}
 
   setup do
-     {:ok, %{conn: guardian_login(factory(:user))}}
+     {:ok, %{conn: guardian_login(insert(:user))}}
   end
 
   test "lists all entries on index", %{conn: conn} do

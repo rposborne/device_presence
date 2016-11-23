@@ -27,7 +27,7 @@ defmodule DevicePresence.Event do
   end
 
   @fields [:device_id, :user_id, :collector_id, :event_type, :started_at, :ended_at]
-  @required_fields [:collector_id, :event_type, :started_at, :ended_at]
+  @required_fields [:collector_id, :event_type, :started_at]
 
   @doc """
   Creates a changeset based on the `model` and `params`.
@@ -38,6 +38,7 @@ defmodule DevicePresence.Event do
   def changeset(model, params \\ %{}) do
     model
     |> cast(params, @fields)
+    |> validate_required(@required_fields)
   end
 
   def for_device(device_id, dir \\ :desc) do
@@ -83,20 +84,20 @@ defmodule DevicePresence.Event do
   end
 
   def duration_of_day(event, timezone) do
-    end_at = if event.ended_at do
-       Timex.Timezone.convert(event.ended_at, timezone)
+     if event.ended_at do
+       end_at =Timex.Timezone.convert(event.ended_at, timezone)
     else
-       Timex.Timezone.name_of(timezone) |> Timex.now
+       end_at =Timex.Timezone.name_of(timezone) |> Timex.now
     end
 
     start_at = event.started_at |> Timex.Timezone.convert(timezone)
 
-    start_at = if Timex.before?(start_at, Timex.Timezone.beginning_of_day(end_at)) do
-      Timex.Timezone.beginning_of_day(end_at)
+     if Timex.before?(start_at, Timex.Timezone.beginning_of_day(end_at)) do
+      start_at = Timex.Timezone.beginning_of_day(end_at)
     end
 
-    end_at = if Timex.after?(end_at, Timex.Timezone.end_of_day(start_at)) do
-       Timex.Timezone.end_of_day(start_at)
+     if Timex.after?(end_at, Timex.Timezone.end_of_day(start_at)) do
+       end_at =Timex.Timezone.end_of_day(start_at)
     end
 
     Timex.diff(end_at, start_at, :minutes)

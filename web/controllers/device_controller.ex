@@ -2,7 +2,6 @@ defmodule DevicePresence.DeviceController do
   use DevicePresence.Web, :controller
 
   alias DevicePresence.Device
-  alias DevicePresence.User
 
   def index(conn, _params) do
     devices = Repo.all(Device)
@@ -11,8 +10,7 @@ defmodule DevicePresence.DeviceController do
 
   def new(conn, _params) do
     changeset = Device.changeset(%Device{})
-    users = Repo.all(User)
-    render(conn, "new.html", changeset: changeset, users: users)
+    render(conn, "new.html", changeset: changeset)
   end
 
   def create(conn, %{"device" => device_params}) do
@@ -36,9 +34,8 @@ defmodule DevicePresence.DeviceController do
 
   def edit(conn, %{"id" => id}) do
     device = Repo.get!(Device, id)
-    users = Repo.all(User)
     changeset = Device.changeset(device)
-    render(conn, "edit.html", device: device, users: users, changeset: changeset)
+    render(conn, "edit.html", device: device, changeset: changeset)
   end
 
   def update(conn, %{"id" => id, "device" => device_params}) do

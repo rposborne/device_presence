@@ -1,9 +1,15 @@
 defmodule DevicePresence.UserControllerTest do
   use DevicePresence.ConnCase
+  import DevicePresence.Factory
 
   alias DevicePresence.User
   @valid_attrs %{email: "some content", name: "some content"}
   @invalid_attrs %{}
+
+  setup do
+     {:ok, %{conn: guardian_login(insert(:user))}}
+  end
+
 
   test "lists all entries on index", %{conn: conn} do
     conn = get conn, user_path(conn, :index)
@@ -29,7 +35,7 @@ defmodule DevicePresence.UserControllerTest do
   test "shows chosen resource", %{conn: conn} do
     user = Repo.insert! %User{}
     conn = get conn, user_path(conn, :show, user)
-    assert html_response(conn, 200) =~ "Show user"
+    assert html_response(conn, 200) =~ "User"
   end
 
   test "renders page not found when id is nonexistent", %{conn: conn} do
