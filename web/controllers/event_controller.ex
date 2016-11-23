@@ -18,7 +18,7 @@ defmodule DevicePresence.EventController do
     events = Event.for_device(device_id)
             |> Event.for_day(date)
             |> Repo.all
-    render(conn, "index.json", events: events, date: date)
+    render(conn, "index.json", events: events, for_date: date)
   end
 
   def for_date(conn, %{"user_id" => user_id, "for_date" => date}) do
@@ -26,6 +26,6 @@ defmodule DevicePresence.EventController do
     events = Event.for_user(user_id)
             |> Event.for_day(date)
             |> Repo.all
-    render(conn, "index.json", events: events, date: date)
+    render(conn, "index.json", events: events, for_date: date)
   end
 end

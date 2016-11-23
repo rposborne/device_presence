@@ -13,7 +13,7 @@ defmodule DevicePresence.ModelCase do
   """
 
   use ExUnit.CaseTemplate
-
+  
   using do
     quote do
       alias DevicePresence.Repo

@@ -83,23 +83,53 @@ defmodule DevicePresence.Event do
     Timex.diff(event.ended_at || Timex.now, event.started_at, :minutes)
   end
 
-  def duration_of_day(event, timezone) do
-     if event.ended_at do
-       end_at =Timex.Timezone.convert(event.ended_at, timezone)
-    else
-       end_at =Timex.Timezone.name_of(timezone) |> Timex.now
-    end
+  @doc ~S"""
+  Determine the number of minutes that have passed in the current day
 
-    start_at = event.started_at |> Timex.Timezone.convert(timezone)
+  ## Examples
 
-     if Timex.before?(start_at, Timex.Timezone.beginning_of_day(end_at)) do
-      start_at = Timex.Timezone.beginning_of_day(end_at)
-    end
+      iex> DevicePresence.Event.duration_of_day(
+      ...>  Timex.to_datetime({{2015, 4, 17}, {14, 00, 34}}, "America/Chicago"),
+      ...>  %DevicePresence.Event{
+      ...>    started_at: %{day: 17, hour: 14, min: 0, month: 4, sec: 0, year: 2015},
+      ...>    ended_at: %{day: 17, hour: 14, min: 1, month: 4, sec: 0, year: 2015}
+      ...>  }
+      ...> )
+      1
 
-     if Timex.after?(end_at, Timex.Timezone.end_of_day(start_at)) do
-       end_at =Timex.Timezone.end_of_day(start_at)
-    end
-
-    Timex.diff(end_at, start_at, :minutes)
+  """
+  def duration_of_day(date, event) do
+    timezone = Timex.Timezone.get date.time_zone
+    end_at = event.ended_at |> time_in_timezone_or_now(timezone)
+    start_at = event.started_at |> time_in_timezone_or_now(timezone)
+    Timex.diff(
+      time_or_end_of_day(date, end_at),
+      time_or_beginning_of_day(date, start_at),
+      :minutes
+    )
   end
+
+  def time_or_beginning_of_day(date, time) do
+    beginning_of_day = Timex.Timezone.beginning_of_day(date)
+    case Timex.before?(time, beginning_of_day) do
+      true -> beginning_of_day
+      false -> time
+    end
+  end
+
+  def time_or_end_of_day(date, time) do
+    end_of_day = Timex.Timezone.end_of_day(date)
+    case Timex.after?(time, end_of_day) do
+      true -> end_of_day
+      false -> time
+    end
+  end
+
+  def time_in_timezone_or_now(time, timezone ) do
+    case time do
+      nil -> Timex.Timezone.name_of(timezone) |> Timex.now
+      time -> Timex.Timezone.convert(time, timezone)
+    end
+  end
+
 end
