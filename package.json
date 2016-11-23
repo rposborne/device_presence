@@ -2,6 +2,7 @@
   "repository": {},
   "dependencies": {
     "babel-brunch": "~6.0.0",
+    "bootstrap": "4.0.0-alpha.5",
     "brunch": "~2.5.0",
     "clean-css-brunch": "~1.8.0",
     "css-brunch": "~1.7.0",
@@ -15,5 +16,18 @@
     "timeago": "^1.5.3",
     "uglify-js-brunch": "~1.7.0",
     "vue": "^2.0.3"
-  }
+  },
+  "name": "device_presence",
+  "description": "To start your Phoenix app:",
+  "version": "1.0.0",
+  "main": "brunch-config.js",
+  "directories": {
+    "test": "test"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
 }
