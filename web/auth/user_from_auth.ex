@@ -11,7 +11,6 @@ defmodule DevicePresence.UserFromAuth do
       {:ok, user} -> {:ok, user}
       {:error, reason} -> {:error, reason}
     end
-
   end
 
   def find_by_email(email) do
@@ -23,7 +22,6 @@ defmodule DevicePresence.UserFromAuth do
   end
 
   defp basic_info(auth) do
-
     %{id: auth.uid, name: name_from_auth(auth), avatar: auth.info.image, email: auth.info.email}
   end
 

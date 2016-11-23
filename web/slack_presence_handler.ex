@@ -1,7 +1,7 @@
 defmodule DevicePresence.SlackPresenceHandler do
   alias DevicePresence.Repo
-  import Ecto
-  import Ecto.Query, only: [from: 1, from: 2]
+
+  import Ecto.Query, only: [from: 2]
   alias DevicePresence.User
   alias DevicePresence.Event
 
@@ -49,7 +49,7 @@ defmodule DevicePresence.SlackPresenceHandler do
     Event.changeset(%Event{}, %{collector_id: collector.id, user_id: user.id, event_type: type, started_at: event_time}) |> Repo.insert!
   end
 
-  # TODO track if we actually are seeing a status change. 
+  # TODO track if we actually are seeing a status change.
   def update_prev_event(user, time) do
     case Event.most_recent_for(%{user: user}) |> Repo.one do
       nil -> IO.puts "No Previous Events"

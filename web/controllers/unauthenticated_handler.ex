@@ -1,9 +1,7 @@
 defmodule DevicePresence.UnauthenticatedHandler do
   import Plug.Conn
-  alias DevicePresence.Collector
-  alias DevicePresence.Repo
 
-  def unauthenticated(conn, params) do
+  def unauthenticated(conn, _params) do
     conn
     |> send_resp(401, "go away")
     |> halt()
