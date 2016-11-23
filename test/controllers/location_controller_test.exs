@@ -1,13 +1,18 @@
 defmodule DevicePresence.LocationControllerTest do
   use DevicePresence.ConnCase
-
+  import DevicePresence.Factory
   alias DevicePresence.Location
+
   @valid_attrs %{address_1: "some content", address_2: "some content", city: "some content", country: "some content", name: "some content", postal_code: "some content", state: "some content"}
   @invalid_attrs %{}
 
+  setup do
+     {:ok, %{conn: guardian_login(factory(:user))}}
+  end
+
   test "lists all entries on index", %{conn: conn} do
-    conn = get conn, location_path(conn, :index)
-    assert html_response(conn, 200) =~ "Listing locations"
+    conn = get(conn, location_path(conn, :index))
+    assert html_response(conn, 200) =~ "Locations"
   end
 
   test "renders form for new resources", %{conn: conn} do
@@ -16,6 +21,7 @@ defmodule DevicePresence.LocationControllerTest do
   end
 
   test "creates resource and redirects when data is valid", %{conn: conn} do
+
     conn = post conn, location_path(conn, :create), location: @valid_attrs
     assert redirected_to(conn) == location_path(conn, :index)
     assert Repo.get_by(Location, @valid_attrs)
@@ -27,9 +33,9 @@ defmodule DevicePresence.LocationControllerTest do
   end
 
   test "shows chosen resource", %{conn: conn} do
-    location = Repo.insert! %Location{}
+    location = Repo.insert! %Location{name: "DC"}
     conn = get conn, location_path(conn, :show, location)
-    assert html_response(conn, 200) =~ "Show location"
+    assert html_response(conn, 200) =~ "#{location.name}"
   end
 
   test "renders page not found when id is nonexistent", %{conn: conn} do

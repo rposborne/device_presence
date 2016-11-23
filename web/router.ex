@@ -1,5 +1,6 @@
 defmodule DevicePresence.Router do
   use DevicePresence.Web, :router
+  require Ueberauth
 
   pipeline :browser do
     plug :accepts, ["html"]
@@ -15,13 +16,35 @@ defmodule DevicePresence.Router do
 
   pipeline :probes do
     plug :accepts, ["json"]
-    plug TokenAuth
+    plug DevicePresence.TokenAuth
+  end
+
+  pipeline :browser_auth do
+    plug Guardian.Plug.VerifySession
+    plug Guardian.Plug.LoadResource
+  end
+
+  pipeline :requires_user do
+    plug Guardian.Plug.EnsureAuthenticated, handler: DevicePresence.UnauthenticatedHandler
+  end
+
+
+  scope "/auth", DevicePresence do
+    pipe_through [:browser]
+
+    get "/:provider", AuthController, :request
+    get "/:provider/callback", AuthController, :callback
+    post "/:provider/callback", AuthController, :callback
+    delete "/logout", AuthController, :delete
   end
 
   scope "/", DevicePresence do
-    pipe_through :browser # Use the default browser stack
-
+    pipe_through [:browser, :browser_auth]
     get "/", PageController, :index
+  end
+
+  scope "/", DevicePresence do
+    pipe_through [:browser, :browser_auth, :requires_user]
     resources "/users", UserController
     resources "/devices", DeviceController
 

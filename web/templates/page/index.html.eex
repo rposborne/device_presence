@@ -1,3 +1,9 @@
-<main id="watcher">
-  <user-devices v-bind:devices="devices"></user-devices>
-</main>
+<%= unless current_user(@conn) do %>
+  <div class="jumbotron">
+    <h1>Please Login</h1>
+      <%= link "Login",
+          to: auth_path(@conn, :request, "google"),
+          class: "btn btn-success align-middle"
+      %>
+  </div>
+<% end %>

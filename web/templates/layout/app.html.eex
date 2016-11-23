@@ -16,14 +16,22 @@
       <button type="button" class="navbar-toggler hidden-sm-up" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar" aria-label="Toggle navigation"></button>
       <a class="navbar-brand" href="/">White Tower</a>
       <div id="navbar">
-        <nav class="nav navbar-nav float-xs-left">
-          <%= link "Locations", to: location_path(@conn, :index), class: "nav-item nav-link" %>
-          <%= link "Users", to: user_path(@conn, :index), class: "nav-item nav-link" %>
-          <%= link "Devices", to: device_path(@conn, :index), class: "nav-item nav-link" %>
-        </nav>
-        <!-- <form class="float-xs-right">
-          <input type="text" class="form-control" placeholder="Search...">
-        </form> -->
+        <%= if current_user(@conn) do %>
+          <nav class="nav navbar-nav float-xs-left">
+            <%= link "Locations", to: location_path(@conn, :index), class: "nav-item nav-link" %>
+            <%= link "Users", to: user_path(@conn, :index), class: "nav-item nav-link" %>
+            <%= link "Devices", to: device_path(@conn, :index), class: "nav-item nav-link" %>
+          </nav>
+
+          <span class="navbar-text float-xs-right text-muted">
+            <%= link "Logout", to: auth_path(@conn, :delete), method: "delete", class: "btn btn-outline-danger btn-sm align-middle" %>
+          </span>
+        <% else %>
+          <span class="navbar-text float-xs-right text-muted">
+            <%= link "Login", to: auth_path(@conn, :request, "google"), class: "btn btn-outline-success btn-sm align-middle" %>
+          </span>
+
+        <% end %>
       </div>
     </nav>
 

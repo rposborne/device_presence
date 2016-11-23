@@ -1,8 +1,6 @@
 defmodule DevicePresence.ScanController do
   use DevicePresence.Web, :controller
 
-  alias DevicePresence.Collector
-  alias DevicePresence.Event
   def create(conn, params) do
     collector =
       case params["collector_id"] do

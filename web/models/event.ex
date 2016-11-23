@@ -1,10 +1,6 @@
 defmodule DevicePresence.Event do
   use DevicePresence.Web, :model
   use Timex
-  alias Timex.Duration
-  alias DevicePresence.Device
-  alias DevicePresence.Collector
-
   @event_epoch %DateTime{
     year: 2016,
     month: 10,
@@ -23,9 +19,9 @@ defmodule DevicePresence.Event do
     field :started_at, Timex.Ecto.DateTime
     field :ended_at, Timex.Ecto.DateTime
     field :event_type, :string
-    belongs_to :device, Device
-    belongs_to :user, User
-    belongs_to :collector, Collector
+    belongs_to :device, DevicePresence.Device
+    belongs_to :user, DevicePresence.User
+    belongs_to :collector, DevicePresence.Collector
 
     timestamps
   end
@@ -69,14 +65,14 @@ defmodule DevicePresence.Event do
   end
 
   def most_recent_for(%{user: user}) do
-    query = from(e in Event,
+    from(e in __MODULE__,
       where: e.user_id == ^user.id,
       order_by: [desc: e.inserted_at],
       limit: 1)
   end
 
   def most_recent_for(%{device: device}) do
-    query = from(e in Event,
+    from(e in __MODULE__,
       where: e.device_id == ^device.id,
       order_by: [desc: e.inserted_at],
       limit: 1)
@@ -95,12 +91,12 @@ defmodule DevicePresence.Event do
 
     start_at = event.started_at |> Timex.Timezone.convert(timezone)
 
-    if Timex.before?(start_at, Timex.Timezone.beginning_of_day(end_at)) do
-      start_at = Timex.Timezone.beginning_of_day(end_at)
+    start_at = if Timex.before?(start_at, Timex.Timezone.beginning_of_day(end_at)) do
+      Timex.Timezone.beginning_of_day(end_at)
     end
 
-    if Timex.after?(end_at, Timex.Timezone.end_of_day(start_at)) do
-      end_at = Timex.Timezone.end_of_day(start_at)
+    end_at = if Timex.after?(end_at, Timex.Timezone.end_of_day(start_at)) do
+       Timex.Timezone.end_of_day(start_at)
     end
 
     Timex.diff(end_at, start_at, :minutes)

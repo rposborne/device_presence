@@ -29,7 +29,10 @@ defmodule DevicePresence.Mixfile do
                     :timex,
                     :timex_ecto,
                     :distillery,
-                    :secure_random]]
+                    :secure_random,
+                    :guardian,
+                    :ueberauth,
+                    :ueberauth_google]]
   end
 
   # Specifies which paths to compile per environment.
@@ -51,7 +54,11 @@ defmodule DevicePresence.Mixfile do
      {:credo, "~> 0.4", only: [:dev, :test]},
      {:distillery, "~> 0.10"},
      {:cowboy, "~> 1.0"},
-     {:secure_random, "~> 0.5"}]
+     {:secure_random, "~> 0.5"},
+     {:guardian, "~> 0.13.0"},
+     {:ueberauth, "~> 0.4"},
+     {:ueberauth_google, "~> 0.4"},
+     {:ex_machina, "~> 1.0", only: [:test]} ]
   end
 
   # Aliases are shortcut or tasks specific to the current project.

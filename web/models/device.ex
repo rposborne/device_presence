@@ -2,7 +2,6 @@ defmodule DevicePresence.Device do
   use DevicePresence.Web, :model
 
   alias DevicePresence.Event
-  alias DevicePresence.User
 
   schema "devices" do
     field :name, :string
@@ -57,7 +56,7 @@ defmodule DevicePresence.Device do
   end
 
   def most_recent_event(device) do
-    query = from(e in Event,
+    from(e in Event,
       where: e.device_id == ^device.id,
       order_by: [desc: e.inserted_at],
       limit: 1)

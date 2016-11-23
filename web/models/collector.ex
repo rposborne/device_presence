@@ -1,15 +1,12 @@
 defmodule DevicePresence.Collector do
   use DevicePresence.Web, :model
 
-  alias DevicePresence.Event
-  alias DevicePresence.User
-
   schema "collectors" do
     field :name, :string
     field :type, :string
     field :api_key, :string
     belongs_to :location, DevicePresence.Location
-    has_many :events, Event
+    has_many :events, DevicePresence.Event
     has_many :devices, through: [:events, :device]
     has_many :users, through: [:devices, :user]
 
@@ -26,7 +23,7 @@ defmodule DevicePresence.Collector do
   end
 
   def online_users(collector) do
-    from u in User,
+    from u in DevicePresence.User,
       join: d in assoc(u, :devices),
       join: e in assoc(u, :events),
       distinct: u.id,

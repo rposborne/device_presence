@@ -1,7 +1,6 @@
 defmodule DevicePresence.DevicePresenceHandler do
   alias DevicePresence.Repo
-  import Ecto
-  import Ecto.Query, only: [from: 1, from: 2]
+  import Ecto.Query, only: [from: 2]
   alias DevicePresence.Device
   alias DevicePresence.Event
 

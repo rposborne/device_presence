@@ -1,4 +1,4 @@
-defmodule TokenAuth do
+defmodule DevicePresence.TokenAuth do
   import Plug.Conn
   alias DevicePresence.Collector
   alias DevicePresence.Repo
@@ -20,8 +20,6 @@ defmodule TokenAuth do
         unauthorized(conn)
     end
   end
-
-  defp encode(username, password), do: Base.encode64(username <> ":" <> password)
 
   defp unauthorized(conn) do
     conn

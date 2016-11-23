@@ -12,7 +12,7 @@ defmodule DevicePresence.ConnCase do
   inside a transaction which is reset at the beginning
   of the test unless the test case is marked as async.
   """
-
+  use Phoenix.ConnTest
   use ExUnit.CaseTemplate
 
   using do
@@ -29,8 +29,28 @@ defmodule DevicePresence.ConnCase do
 
       # The default endpoint for testing
       @endpoint DevicePresence.Endpoint
+
+      # We need a way to get into the connection to login a user
+      # We need to use the bypass_through to fire the plugs in the router
+      # and get the session fetched.
+      def guardian_login(%DevicePresence.User{} = user), do: guardian_login(build_conn(), user, :token, [])
+      def guardian_login(%DevicePresence.User{} = user, token), do: guardian_login(build_conn(), user, token, [])
+      def guardian_login(%DevicePresence.User{} = user, token, opts), do: guardian_login(build_conn(), user, token, opts)
+
+      def guardian_login(%Plug.Conn{} = conn, user), do: guardian_login(conn, user, :token, [])
+      def guardian_login(%Plug.Conn{} = conn, user, token), do: guardian_login(conn, user, token, [])
+      def guardian_login(%Plug.Conn{} = conn, user, token, opts) do
+        conn
+          |> bypass_through(DevicePresence.Router, [:browser])
+          |> get("/")
+          |> Guardian.Plug.sign_in(user, token, opts)
+          |> send_resp(200, "Flush the session yo")
+          |> recycle()
+      end
     end
+
   end
+
 
   setup tags do
     :ok = Ecto.Adapters.SQL.Sandbox.checkout(DevicePresence.Repo)

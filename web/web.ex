@@ -35,6 +35,9 @@ defmodule DevicePresence.Web do
       import Ecto
       import Ecto.Query, only: [from: 1, from: 2]
 
+      alias Guardian.Plug.EnsureAuthenticated
+      alias Guardian.Plug.EnsurePermissions
+
       import DevicePresence.Router.Helpers
       import DevicePresence.Gettext
     end
@@ -52,6 +55,7 @@ defmodule DevicePresence.Web do
 
       import DevicePresence.Router.Helpers
       import DevicePresence.ErrorHelpers
+      import DevicePresence.AuthHelpers
       import DevicePresence.Gettext
     end
   end
