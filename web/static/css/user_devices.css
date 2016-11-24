@@ -1,7 +1,11 @@
-.devices .controls {
-  text-align: center;
+.devices .date {
+  text-align: right;
+  float:right;
+  padding:10px 0;
+  color: #888;
 }
-.devices .controls span {
+
+.devices .controls {
   display: inline-block;
-  padding-top:8px;
+  margin-bottom: 10px;
 }

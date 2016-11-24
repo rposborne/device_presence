@@ -7,9 +7,9 @@ Vue.component('user-view', {
     `<div class='devices'>
       <div class='controls'>
         <button class='btn btn-secondary pull-left' @click="prevDay">Prev</button>
-        <span>{{dayOfWeek()}}</span>
         <button v-show='thereIsTommorow()' class='btn btn-secondary pull-right' @click="nextDay">Next</button>
       </div>
+      <span class='date'>{{dayOfWeek()}}</span>
       <template v-for="device in devices">
         <h3>{{device.name}}
           <small>
@@ -48,8 +48,7 @@ Vue.component('user-view', {
       this.date = moment(this.date).add(-1, 'days');
     },
     dayOfWeek: function dayOfWeek() {
-
-      return this.date.format("dddd, MMMM");
+      return this.date.format("dddd, MMMM D");
     }
   },
   created: function () {
@@ -64,13 +63,16 @@ Vue.component('user-view', {
     $(document).keydown(function(e) {
         if(e.which == 39) {
           e.preventDefault();
-          this.nextDay();
+          if (this.thereIsTommorow()) {
+            this.nextDay();
+          }
+
         }
     }.bind(this));
 
   },
   mounted: function () {
     var vm = this;
-    $(this.$el).timeago();
+    $('time').timeago();
   }
 });
