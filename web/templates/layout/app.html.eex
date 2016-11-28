@@ -7,14 +7,14 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>White Tower</title>
+    <title>Gandalf</title>
     <link rel="stylesheet" href="<%= static_path(@conn, "/css/app.css") %>">
   </head>
 
   <body>
     <nav class="navbar navbar-dark navbar-fixed-top bg-inverse">
       <button type="button" class="navbar-toggler hidden-sm-up" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar" aria-label="Toggle navigation"></button>
-      <a class="navbar-brand" href="/">White Tower</a>
+      <a class="navbar-brand" href="/">Gandalf</a>
       <div id="navbar">
         <%= if current_user(@conn) do %>
           <nav class="nav navbar-nav float-xs-left">
