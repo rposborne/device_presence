@@ -29,8 +29,16 @@ defmodule DevicePresence.Factory do
   def event_factory do
     %Event{
       event_type: "online",
-      started_at:  %{day: 17, hour: 19, min: 0, month: 4, sec: 0, year: 2016},
-      ended_at:  %{day: 17, hour: 19, min: 5, month: 4, sec: 0, year: 2016},
+      started_at:  Timex.now |> Timex.shift(minutes: -5),
+      ended_at:  Timex.now,
+      collector_id: 1
+    }
+  end
+
+  def pending_event_factory do
+    %Event{
+      event_type: "online",
+      started_at:  Timex.now,
       collector_id: 1
     }
   end
@@ -38,5 +46,12 @@ defmodule DevicePresence.Factory do
   def with_events(user, opts \\ []) do
     opts = opts ++ [user: user]
     insert(:event, opts)
+    insert(:event, opts)
+  end
+
+  def with_pending_events(user, opts \\ []) do
+    opts = opts ++ [user: user]
+    insert(:event, opts)
+    insert(:pending_event, opts)
   end
 end

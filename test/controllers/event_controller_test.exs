@@ -22,9 +22,13 @@ defmodule DevicePresence.EventControllerTest do
 
   test "lists all events for a user for a given day", %{conn: conn} do
     user = insert(:user)
-    user |> with_events
-    conn = get conn, event_path(conn, :for_date, "2016-04-17T11:05:25.787Z-05:00", %{user_id: user.id})
-    first_event = json_response(conn, 200)["data"] |> List.first
+    user |> with_pending_events
+    conn = get conn, event_path(conn, :for_date, Timex.now("America/New_York") |> Timex.format!("%Y-%m-%dT%H:%M:%S.0Z%:z", :strftime) , %{user_id: user.id})
+    events = json_response(conn, 200)["data"]
+    first_event =  events |> List.first
+
     assert first_event["duration_in_minutes"] == 5
   end
 end
+
+"2016-04-17T11:05:25.787Z-05:00"
